@@ -17,6 +17,8 @@ class Hotel:
         Creates 'name' attribute.
     
         """
+        # call user_prefs from init 
+        # decide to call other methods from init or main
         self.name = name
     
     def user_prefs(self):
@@ -63,6 +65,7 @@ class Hotel:
         Returns:
             list: A list of hotels that are within the user's specified budget.
         """
+        # potential list comprehension lines 66-74
         budget_hotels = []
         
         for hotel_name, details in file_dict.items():
@@ -93,6 +96,7 @@ class Hotel:
         Side Effects:
         Prints list with matching hotel name's and dates.
         """
+        # check_time method could be a little too similar to this method
         user_date = input('Enter your preferred date:')
        
         
@@ -122,6 +126,8 @@ class Hotel:
         best_hotel = None
         num_intersections = 0
         
+        # convert dictionary to set
+        # get container of keys in the dictionary 
         for hotel_name, hotel_details in file_dict.items():
             intersection = user_dict.intersection(hotel_details)
             if len(intersection) > num_intersections:
@@ -158,8 +164,10 @@ def read_file(filename):
     except json.JSONDecodeError:
         print(f"Error decoding JSON from the file {filename}.")
         return []
+    # don't catch random exceptions
     except Exception as e:
         print(f"An error occurred: {e}")
+        # why are you returning an empty list???? 
         return []
 
 def main():
