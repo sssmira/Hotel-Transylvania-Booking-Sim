@@ -177,5 +177,26 @@ def main():
     
     pass
 
+
+def parse_args(arglist):
+    """Parse command-line arguments.
+    
+    Expect one mandatory argument:
+        - filepath: a path to a file with list of hotel objects 
+        or dictionaries.
+       
+       
+    Args:
+        arglist (list of str): arguments from the command line.
+    
+    Returns:
+        namespace: the parsed arguments, as a namespace.
+    """
+    
+
+    parser = ArgumentParser()
+    parser.add_argument("filename", help="JSON file with hotel data")
+    return parser.parse_args(arglist)
+  
 if __name__ == '__main__':
     main()
