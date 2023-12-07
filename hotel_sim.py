@@ -1,6 +1,6 @@
 import sys
 import json
-import argparse
+from argparse import ArgumentParser
 
 """A hotel booking simulator, that takes in user input and returns
 the  best hotel for their needs. """
