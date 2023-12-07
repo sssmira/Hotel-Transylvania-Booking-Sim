@@ -4,7 +4,6 @@
             "place_name": "place Transylvania",
             "location": {
                 "location_name": "Transylvania, Romania",
-                "city": null,
                 "state": "Transylvania",
                 "country": "ROM"
             },
@@ -13,14 +12,13 @@
                 "2_guests": "$220 per night",
                 "3_guests": "$320 per night"
             },
-            "amenities": ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"]
+            "amenities": ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"],
+            "rating": 3
         },
         {
             "place_name": "Castle Lubov",
             "location": {
                 "location_name": "Slovakia",
-                "city": null,
-                "state": null,
                 "country": "SVK"
             },
             "prices": {
@@ -28,7 +26,8 @@
                 "2_guests": "$250 per night",
                 "3_guests": "$350 per night"
             },
-            "amenities": ["Ski Access", "Hot Tub", "Free Parking", "Breakfast Included"]
+            "amenities": ["Ski Access", "Hot Tub", "Free Parking", "Breakfast Included"],
+            "rating": 4
         },
         {
             "place_name": "Santa Cruz place",
@@ -43,13 +42,13 @@
                 "2_guests": "$280 per night",
                 "3_guests": "$380 per night"
             },
-            "amenities": ["Beach Access", "Free Wi-Fi", "Pool", "Spa", "Restaurant"]
+            "amenities": ["Beach Access", "Free Wi-Fi", "Pool", "Spa", "Restaurant"],
+            "rating": 5
         },
         {
             "place_name": "Camp Winnepacaca",
             "location": {
                 "location_name": "Transylvania, Romania",
-                "city": null,
                 "state": "Transylvania",
                 "country": "ROM"
             },
@@ -59,29 +58,24 @@
                 "2_guests": "$230 per night",
                 "3_guests": "$330 per night"
             },
-            "amenities": ["Mountain Hiking", "Free Wi-Fi", "Gym", "Bar", "Pet Friendly"]
+            "amenities": ["Mountain Hiking", "Free Wi-Fi", "Gym", "Bar", "Pet Friendly"],
+            "rating": 2
         },
         {
             "place_name": "Bermuda Triangle",
-            "location": {
-                "location_name": null,
-                "city": null,
-                "state": null,
-                "country": null
-            },
             "stay_type": "hotel",
             "prices": {
                 "1_guest": "$200 per night",
                 "2_guests": "$300 per night",
                 "3_guests": "$400 per night"
             },
-            "amenities": ["Disapperance", "World's Lost Treasures"]
+            "amenities": ["Disappearance", "World's Lost Treasures"],
+            "rating": 1
         },
         {
             "place_name": "Winnie's Treehouse",
             "location": {
                 "location_name": "Transylvania, Romania",
-                "city": null,
                 "state": "Transylvania",
                 "country": "ROM"
             },
@@ -90,18 +84,19 @@
                 "1_guest": "$140 per night",
                 "2_guests": "$240 per night"
             },
-            "amenities": ["Garden Views", "High Tea Service", "Tennis Lessons"]
+            "amenities": ["Garden Views", "High Tea Service", "Tennis Lessons"],
+            "rating": 3
         },
         {
             "place_name": "The Lost City of Atlantis",
-            "location": null,
             "stay_type": "hotel",
             "prices": {
                 "1_guest": "$210 per night",
                 "2_guests": "$410 per night",
                 "3_guests": "$610 per night"
             },
-            "amenities": ["Aquatic life Viewing Decks", "Gourmet Dining", "Disapperance", "World's Lost Treasures"]
+            "amenities": ["Aquatic life Viewing Decks", "Gourmet Dining", "Disappearance", "World's Lost Treasures"],
+            "rating": 5
         },
         {
             "place_name": "Legacy",
@@ -126,7 +121,8 @@
                 "2_guests": "$260 per night",
                 "3_guests": "$360 per night"
             },
-            "amenities": ["Rooftop Dining", "Fitness Center", "Indoor Pool", "Restaurants", "Outdoor Pool"]
+            "amenities": ["Rooftop Dining", "Fitness Center", "Indoor Pool", "Restaurants", "Outdoor Pool"],
+            "rating": 4
         }
     ]
 }
