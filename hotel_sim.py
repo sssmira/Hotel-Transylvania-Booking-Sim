@@ -29,6 +29,8 @@ class Hotel:
         self.file_dict = file_dict
     
     def user_prefs(self):
+        """_summary_
+        """
         user_data = {}
         name = input("Enter your name: ")
         guests = input("Enter the number of guests (1-3): ")
