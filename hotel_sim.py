@@ -24,14 +24,21 @@ class Hotel:
     def user_prefs(self):
         user_data = {}
         name = input("Enter your name: ")
-        budget = input("Enter the max you are willing to spend: ")
-        city = input("Enter your preferred city: ")
+        guests = input("Enter the number of guests (1-3): ")
+        budget = input("Enter the max you are willing to spend for the entire trip: ")
+        # location would prob be state or country according to json file but
+        # theres the problem of the check_location method
+        location = input("Enter your preferred country: ")
+        
+        # dates not on the json file
         start_date = input("Enter the start date of your visit: ")
         end_date = input("Enter the end date of your visit: ")
         
         user_data['name'] = name
+        user_data['guests'] = guests
         user_data['age'] = budget
-        user_data['city'] = city
+        user_data['location'] = location
+        
         user_data['start_date'] = start_date
         user_data['end_date'] = end_date
         
@@ -96,7 +103,6 @@ class Hotel:
         Side Effects:
         Prints list with matching hotel name's and dates.
         """
-        # check_time method could be a little too similar to this method
         user_date = input('Enter your preferred date:')
        
         
