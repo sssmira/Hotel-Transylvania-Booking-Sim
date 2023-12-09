@@ -1,6 +1,7 @@
 import sys
 import json
 from argparse import ArgumentParser
+import seaborn
 
 """A hotel booking simulator, that takes in user input and returns
 the  best hotel for their needs. """
