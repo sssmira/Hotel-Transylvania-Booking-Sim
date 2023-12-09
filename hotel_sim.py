@@ -38,7 +38,7 @@ class Hotel:
         
         user_data['name'] = name
         user_data['guests'] = guests
-        user_data['age'] = budget
+        user_data['budget'] = budget
         user_data['location'] = location
         
         user_data['start_date'] = start_date
