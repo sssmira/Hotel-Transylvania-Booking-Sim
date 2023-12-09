@@ -27,6 +27,7 @@ class Hotel:
         user_data = {}
         name = input("Enter your name: ")
         guests = input("Enter the number of guests (1-3): ")
+        nights_staying = input("Enter how many nights you will be staying: ")
         budget = input("Enter the max you are willing to spend for the entire trip: ")
         # location would prob be state or country according to json file but
         # theres the problem of the check_location method
@@ -38,6 +39,7 @@ class Hotel:
         
         user_data['name'] = name
         user_data['guests'] = guests
+        user_data["nights_staying"] = nights_staying
         user_data['budget'] = budget
         user_data['location'] = location
         
