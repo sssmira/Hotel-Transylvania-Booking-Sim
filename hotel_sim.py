@@ -7,7 +7,7 @@ import seaborn
 the  best hotel for their needs. """
 class Hotel:
    
-    def __init__(self, name):
+    def __init__(self, file_dict):
          
         """creates name attribute to store name as argument.
 
@@ -20,7 +20,8 @@ class Hotel:
         """
         # call user_prefs from init 
         # decide to call other methods from init or main
-        self.name = name
+        # place json file here?
+        self.file_dict = file_dict
     
     def user_prefs(self):
         user_data = {}
@@ -43,11 +44,9 @@ class Hotel:
         user_data['start_date'] = start_date
         user_data['end_date'] = end_date
         
-    def check_location(self, preferred_location, max_distance, hotels_file):
-        # i don't get why we need to open the file again here??
-        with open(hotels_file, 'r') as file:
-            hotels_data = [line.strip().split(',') for line in file]
-
+    def check_location(self, preferred_location, max_distance):
+        # idek what to do abt this
+        
         # Define the coordinates of the preferred location
         self.preferred_coords = (preferred_location['latitude'], preferred_location['longitude'])
 
@@ -181,6 +180,7 @@ def main():
     """Finds the the hotel that matches the user preferences based on 
     the user's input using the data from the specificed file.
     """
+    
     # come back and fix
     read_file("hotels.json")
     my_trip = Hotel
