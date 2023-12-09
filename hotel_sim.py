@@ -1,11 +1,16 @@
 import sys
 import json
 from argparse import ArgumentParser
-import seaborn
+import seaborn as sns
 
-"""A hotel booking simulator, that takes in user input and returns
-the  best hotel for their needs. """
+"""Hotel Transylvania themed hotel booking simulator. Or otherwise known as our
+'Boo-king Program'. This program takes in a JSON file and CSV file to find
+the best vacation spot and best vacation activities for the user based on their
+preferences.
+"""
 class Hotel:
+    """Class docstring do later
+    """
    
     def __init__(self, file_dict):
          
@@ -29,22 +34,16 @@ class Hotel:
         guests = input("Enter the number of guests (1-3): ")
         nights_staying = input("Enter how many nights you will be staying: ")
         budget = input("Enter the max you are willing to spend for the entire trip: ")
-        # location would prob be state or country according to json file but
-        # theres the problem of the check_location method
-        location = input("Enter your preferred country: ")
-        
-        # dates not on the json file
-        start_date = input("Enter the start date of your visit: ")
-        end_date = input("Enter the end date of your visit: ")
+        location = input("Enter your preferred (ROM, SVK, USA, or OCEAN)): ")
+        date = input("Enter the month of your visit: ")
         
         user_data['name'] = name
         user_data['guests'] = guests
         user_data["nights_staying"] = nights_staying
         user_data['budget'] = budget
         user_data['location'] = location
+        user_data['date'] = date
         
-        user_data['start_date'] = start_date
-        user_data['end_date'] = end_date
         
     def check_location(self, preferred_location, max_distance):
         # idek what to do abt this

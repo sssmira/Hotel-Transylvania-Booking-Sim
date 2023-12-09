@@ -1,7 +1,7 @@
 {
     "places": [
         {
-            "place_name": "place Transylvania",
+            "place_name": "Hotel Transylvania",
             "location": {
                 "location_name": "Transylvania, Romania",
                 "state": "Transylvania",
@@ -13,7 +13,9 @@
                 "3_guests": "$320 per night"
             },
             "amenities": ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"],
-            "rating": 3
+            "rating": 5,
+            "dates": ["January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"]
         },
         {
             "place_name": "Castle Lubov",
@@ -27,10 +29,12 @@
                 "3_guests": "$350 per night"
             },
             "amenities": ["Ski Access", "Hot Tub", "Free Parking", "Breakfast Included"],
-            "rating": 4
+            "rating": 4,
+            "dates": ["January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"]
         },
         {
-            "place_name": "Santa Cruz place",
+            "place_name": "Santa Cruz Hotel",
             "location": {
                 "location_name": "Santa Cruz, CA",
                 "city": "Santa Cruz",
@@ -43,7 +47,9 @@
                 "3_guests": "$380 per night"
             },
             "amenities": ["Beach Access", "Free Wi-Fi", "Pool", "Spa", "Restaurant"],
-            "rating": 5
+            "rating": 5,
+            "dates": ["January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"]
         },
         {
             "place_name": "Camp Winnepacaca",
@@ -52,17 +58,23 @@
                 "state": "Transylvania",
                 "country": "ROM"
             },
-            "stay_type": "bb",
+            "stay_type": "camp",
             "prices": {
                 "1_guest": "$130 per night",
                 "2_guests": "$230 per night",
                 "3_guests": "$330 per night"
             },
             "amenities": ["Mountain Hiking", "Free Wi-Fi", "Gym", "Bar", "Pet Friendly"],
-            "rating": 2
+            "rating": 2,
+            "dates": ["January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"]
         },
         {
-            "place_name": "Bermuda Triangle",
+            "place_name": "Bermuda Triangle Cruiseship",
+            "location": {
+                "location_name": "Atlantic",
+                "country": "OCEAN"
+            },
             "stay_type": "hotel",
             "prices": {
                 "1_guest": "$200 per night",
@@ -70,7 +82,8 @@
                 "3_guests": "$400 per night"
             },
             "amenities": ["Disappearance", "World's Lost Treasures"],
-            "rating": 1
+            "rating": 1,
+            "dates": ["May", "June", "July", "August"]
         },
         {
             "place_name": "Winnie's Treehouse",
@@ -85,10 +98,16 @@
                 "2_guests": "$240 per night"
             },
             "amenities": ["Garden Views", "High Tea Service", "Tennis Lessons"],
-            "rating": 3
+            "rating": 3,
+            "dates": ["March", "April", "May", "June", 
+            "July", "August", "September", "October"]
         },
         {
-            "place_name": "The Lost City of Atlantis",
+            "place_name": "The Lost City of Atlantis Grand Hotel",
+            "location": {
+                "location_name": "Atlantic",
+                "country": "OCEAN"
+            },
             "stay_type": "hotel",
             "prices": {
                 "1_guest": "$210 per night",
@@ -96,11 +115,16 @@
                 "3_guests": "$610 per night"
             },
             "amenities": ["Aquatic life Viewing Decks", "Gourmet Dining", "Disappearance", "World's Lost Treasures"],
-            "rating": 5
+            "rating": 5,
+            "dates": ["April", "May", "June", 
+            "July", "August", "September"]
         },
         {
-            "place_name": "Legacy",
-            "location": "Atlantic Ocean",
+            "place_name": "Legacy Cruise",
+            "location": {
+                "location_name": "Atlantic",
+                "country": "OCEAN"
+            },
             "stay_type": {
                 "type": "cruise",
                 "start_location": {
@@ -122,7 +146,9 @@
                 "3_guests": "$360 per night"
             },
             "amenities": ["Rooftop Dining", "Fitness Center", "Indoor Pool", "Restaurants", "Outdoor Pool"],
-            "rating": 4
+            "rating": 4,
+            "dates": ["April", "May", "June", 
+            "July", "August", "September"]
         }
     ]
 }
