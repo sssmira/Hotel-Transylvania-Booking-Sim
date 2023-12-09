@@ -181,8 +181,9 @@ def main():
     """Finds the the hotel that matches the user preferences based on 
     the user's input using the data from the specificed file.
     """
-    
-    pass
+    # come back and fix
+    read_file("hotels.json")
+    my_trip = Hotel
 
 
 def parse_args(arglist):
