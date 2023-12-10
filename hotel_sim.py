@@ -101,13 +101,19 @@ class Hotel:
         return budget_hotels
         
     def spend_budget(self, user_data):
-       
-        self.user_data["place_name"] = 
+        """Kassia's method
+        
+        """
         self.user_data = user_data
-        leftover_money = self.user_data['budget'] - self.user_data['nights_staying'] 
+       # self.user_data["place_name"] 
+        leftover_money = self.user_data['budget'] - (self.user_data['nights_staying'] * self.user_data.get('guests', 1))
         leftover_money = ["Food", "Activities", "Stay", "Shopping", "Spa"]
-        data = [0, 100, 20, 50, 200]
-        plt.pie(data, labels = leftover_money)
+        percentages = {"Food": 30, "Activities": 20, "Stay": 10, "Shopping": 25, "Spa": 15}
+        spending = {activity: leftover_money * (percent/100) for activity, percent in percentages.items()}
+        activites = list(spending.keys())
+        amounts = list(spending.values())
+        plt.pie(amounts, labels = activites, autopct= '%1.1f%%')
+        plt.title('Recommended for leftover money')
         plt.show()
 
 
