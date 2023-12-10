@@ -99,6 +99,16 @@ class Hotel:
             
         return budget_hotels
         
+    def spend_budget(self):
+       user_budget = float(input("Enter how much you are spending on the trip:"))
+       nights_staying = float(input("Enter how many nights you will be staying:"))
+      
+       leftover_money = user_budget - nights_staying 
+       leftover_money = ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"]
+        data = []
+        plt.pie(data, labels = leftover_money)
+        plt.show()
+
 
     def check_date(self, file_dict):
         """Kassia's method. Checks if user's preferred date is within range 
