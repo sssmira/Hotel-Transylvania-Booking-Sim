@@ -1,6 +1,7 @@
 import sys
 import json
 from argparse import ArgumentParser
+import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
@@ -100,11 +101,11 @@ class Hotel:
         return budget_hotels
         
     def spend_budget(self):
-       user_budget = float(input("Enter how much you are spending on the trip:"))
-       nights_staying = float(input("Enter how many nights you will be staying:"))
+        user_budget = float(input("Enter how much you are spending on the trip:"))
+        nights_staying = float(input("Enter how many nights you will be staying:"))
       
-       leftover_money = user_budget - nights_staying 
-       leftover_money = ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"]
+        leftover_money = user_budget - nights_staying 
+        leftover_money = ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"]
         data = []
         plt.pie(data, labels = leftover_money)
         plt.show()
