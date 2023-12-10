@@ -14,16 +14,22 @@ class Hotel:
     """
    
     def __init__(self, json_data, csv_data):
-        
-        # call user_prefs from init 
-        # decide to call other methods from init or main
-        # place json file here?
         self.hotels_dict = {}
-        self.hotels_dict["hotel name"] = json_data["places"]["place name"]
-        self.hotels_dict["location"] = json_data["places"]["location"]
-        self.hotels_dict["prices"] = json_data["places"]["prices"]
-        self.hotels_dict["date"] = json_data["places"]["dates"]
-        
+
+        for hotel_data in json_data["places"]:
+            hotel_name = hotel_data["place_name"]
+            location = hotel_data["location"]["country"]
+            prices = hotel_data["prices"]
+            dates = hotel_data["dates"]
+
+            hotel_info = {
+                "location": location,
+                "prices": prices,
+                "date": dates
+            }
+
+            self.hotels_dict[hotel_name] = hotel_info
+
         self.csv_data = csv_data
     
     def user_prefs(self):
@@ -32,10 +38,10 @@ class Hotel:
         user_data = {}
         name = input("Enter your name: ")
         guests = input("Enter the number of guests (1-3): ")
-        nights_staying = input("Enter how many nights you will be staying: ")
-        budget = input("Enter the max you are willing to spend for the entire trip: ")
+        nights_staying = input("Enter how many nights you will be staying (Integer): ")
+        budget = input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): ")
         location = input("Enter your preferred (ROM, SVK, USA, or OCEAN)): ")
-        date = input("Enter the month of your visit: ")
+        date = input("Enter the month of your visit (Capitalize first letter): ")
         
         user_data['name'] = name
         user_data['guests'] = guests
@@ -154,28 +160,14 @@ def read_file(filename):
     """
     try:
         with open(filename, 'r') as file:
-            hotel_data = json.load(file)
-            hotels = []
-            for hotel in hotel_data:
-                hotel_dict = {
-                    'name': hotel['name'],
-                    'location': hotel['location'],
-                    'rating': hotel['rating'],
-                    'price': hotel['price'],
-                }
-                hotels.append(hotel_dict)
-            return hotels
+            json_data = json.load(file)
+            return json_data
     except FileNotFoundError:
         print(f"The file {filename} was not found.")
-        return []
     except json.JSONDecodeError:
         print(f"Error decoding JSON from the file {filename}.")
-        return []
-    # don't catch random exceptions
     except Exception as e:
         print(f"An error occurred: {e}")
-        # why are you returning an empty list???? 
-        return []
 
 def main(json_filepath, csv_filepath):
     """Finds the the hotel that matches the user preferences based on 
