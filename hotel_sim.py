@@ -44,9 +44,9 @@ class Hotel:
         date = input("Enter the month of your visit (Capitalize first letter): ")
         
         user_data['name'] = name
-        user_data['guests'] = guests
-        user_data["nights_staying"] = nights_staying
-        user_data['budget'] = budget
+        user_data['guests'] = int(guests)
+        user_data["nights_staying"] = int(nights_staying)
+        user_data['budget'] = int(budget)
         user_data['location'] = location
         user_data['date'] = date
         
@@ -68,32 +68,32 @@ class Hotel:
 
         return nearby_hotels
 
-    def check_budget(self):
+    def check_budget(self, user_budget):
         """Jeni's method
         checks if user's budget is withing range of possible hotel options.
         
         Args:
-            user_budget (float): The user's inputted budget amount
+            user_budget (int): The user's inputted budget amount
             file_dict (dict): Dictionary of all hotels and their details from an external file.
             
         Returns:
             list: A list of hotels that are within the user's specified budget.
         """
-        # potential list comprehension lines 66-74
-        budget_hotels = []
         
-        for hotel_name, details in file_dict.items():
-            hotel_price = details.get("price", 0)
-            if hotel_price <= user_budget:
-                if budget_hotels.append(hotel_name):
-                    # idk if part of got lost or if it never got implemented
-                    # but come back and fix
-                    pass
+        total_cost = self.user_data['guests'] * self.user_data['nights_staying']
+        user_budget = self.user_data['budget']
+        
+        budget_hotels = []
+
+        for hotel_name, details in self.hotels_dict.items():
+            hotel_price = details.get("prices", {}).get("1_guest", 0)
+            if hotel_price <= user_budget and total_cost <= user_budget:
+                budget_hotels.append(hotel_name)
         
         if budget_hotels:
             print(f"Hotels within budget: {', '.join(budget_hotels)}")
         else:
-            print("No hotels within inputted budget price")
+            print("No hotels within the inputted budget price")
             
         return budget_hotels
         
@@ -110,9 +110,7 @@ class Hotel:
         Side Effects:
         Prints list with matching hotel name's and dates.
         """
-        user_date = input('Enter your preferred date:')
-       
-        
+        # go back and fix this
         chosen_date = [f"{name} {details[1]}" for name, details
                        in file_dict.items() if user_date == details[1]]
         print(chosen_date)
@@ -120,7 +118,7 @@ class Hotel:
         if len(chosen_date) == 0:
              print ('No avaiable dates. Try again.') 
     
-    def find_intersection(self, user_data, file_dict):
+    def find_intersection(self, user_data, hotels_dict):
         """Samira's method. Takes a dictionary made from the user's preferences
         dictionary made earlier and a dictionary from the json file. Finds
         the best hotel that matches the user's specified preferences from 
@@ -141,7 +139,7 @@ class Hotel:
         
         # convert dictionary to set
         # get container of keys in the dictionary 
-        for hotel_name, hotel_details in file_dict.items():
+        for hotel_name, hotel_details in hotels_dict.items():
             intersection = user_data.intersection(hotel_details)
             if len(intersection) > num_intersections:
                 num_intersections = len(intersection)
@@ -173,8 +171,6 @@ def main(json_filepath, csv_filepath):
     """Finds the the hotel that matches the user preferences based on 
     the user's input using the data from the specificed file.
     """
-    
-    # come back and fix
     json_data = read_file(json_filepath)
     csv_data = pd.read_csv(csv_filepath)
     
@@ -188,17 +184,16 @@ def parse_args(arglist):
         - filepath: a path to a file with list of hotel objects 
         or dictionaries.
        
-       
+
     Args:
         arglist (list of str): arguments from the command line.
     
     Returns:
         namespace: the parsed arguments, as a namespace.
     """
-    
-
     parser = ArgumentParser()
-    parser.add_argument("filename", help="JSON file with hotel data")
+    parser.add_argument("json_filepath", help="JSON file with hotel data")
+    parser.add_argument("csv_filepath", help="CSV file with hotel activities")
     return parser.parse_args(arglist)
   
 if __name__ == '__main__':
