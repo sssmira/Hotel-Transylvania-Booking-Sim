@@ -31,6 +31,8 @@ class Hotel:
             self.hotels_dict[hotel_name] = hotel_info
 
         self.csv_data = csv_data
+        
+        best_fit_hotel = {}
     
     def user_prefs(self):
         """_summary_
@@ -86,7 +88,7 @@ class Hotel:
         budget_hotels = []
 
         for hotel_name, details in self.hotels_dict.items():
-            hotel_price = details.get("prices", {}).get("1_guest", 0)
+            hotel_price = details.get("prices", {})
             if hotel_price <= user_budget and total_cost <= user_budget:
                 budget_hotels.append(hotel_name)
         
