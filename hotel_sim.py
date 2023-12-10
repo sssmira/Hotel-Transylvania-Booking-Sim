@@ -2,6 +2,7 @@ import sys
 import json
 from argparse import ArgumentParser
 import seaborn as sns
+import pandas as pd
 
 """Hotel Transylvania themed hotel booking simulator. Or otherwise known as our
 'Boo-king Program'. This program takes in a JSON file and CSV file to find
@@ -12,13 +13,18 @@ class Hotel:
     """Class docstring do later
     """
    
-    def __init__(self, json_dict, csv_table):
+    def __init__(self, json_data, csv_data):
         
         # call user_prefs from init 
         # decide to call other methods from init or main
         # place json file here?
-        self.json_dict = json_dict
-        self.csv_table = csv_table
+        self.hotels_dict = {}
+        self.hotels_dict["hotel name"] = json_data["places"]["place name"]
+        self.hotels_dict["location"] = json_data["places"]["location"]
+        self.hotels_dict["prices"] = json_data["places"]["prices"]
+        self.hotels_dict["date"] = json_data["places"]["dates"]
+        
+        self.csv_data = csv_data
     
     def user_prefs(self):
         """_summary_
@@ -171,14 +177,16 @@ def read_file(filename):
         # why are you returning an empty list???? 
         return []
 
-def main():
+def main(json_filepath, csv_filepath):
     """Finds the the hotel that matches the user preferences based on 
     the user's input using the data from the specificed file.
     """
     
     # come back and fix
-    read_file("hotels.json")
-    my_trip = Hotel
+    json_data = read_file(json_filepath)
+    csv_data = pd.read_csv(csv_filepath)
+    
+    my_trip = Hotel(json_data, csv_data)
 
 
 def parse_args(arglist):
