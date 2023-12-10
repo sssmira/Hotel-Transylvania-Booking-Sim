@@ -100,13 +100,13 @@ class Hotel:
             
         return budget_hotels
         
-    def spend_budget(self):
-        user_budget = float(input("Enter how much you are spending on the trip:"))
-        nights_staying = float(input("Enter how many nights you will be staying:"))
-      
-        leftover_money = user_budget - nights_staying 
-        leftover_money = ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"]
-        data = []
+    def spend_budget(self, user_data):
+       
+        self.user_data["place_name"] = 
+        self.user_data = user_data
+        leftover_money = self.user_data['budget'] - self.user_data['nights_staying'] 
+        leftover_money = ["Food", "Activities", "Stay", "Shopping", "Spa"]
+        data = [0, 100, 20, 50, 200]
         plt.pie(data, labels = leftover_money)
         plt.show()
 
@@ -125,7 +125,7 @@ class Hotel:
         """
         # go back and fix this
         chosen_date = [f"{name} {details[1]}" for name, details
-                       in file_dict.items() if user_date == details[1]]
+                       in file_dict.items() if self.user_data['date'] == details[1]]
         print(chosen_date)
         
         if len(chosen_date) == 0:
