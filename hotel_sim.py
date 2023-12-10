@@ -12,21 +12,13 @@ class Hotel:
     """Class docstring do later
     """
    
-    def __init__(self, file_dict):
-         
-        """creates name attribute to store name as argument.
-
-        Args: 
-        name (str): the user's name
+    def __init__(self, json_dict, csv_table):
         
-        Side Effects:
-        Creates 'name' attribute.
-    
-        """
         # call user_prefs from init 
         # decide to call other methods from init or main
         # place json file here?
-        self.file_dict = file_dict
+        self.json_dict = json_dict
+        self.csv_table = csv_table
     
     def user_prefs(self):
         """_summary_
@@ -116,7 +108,7 @@ class Hotel:
         if len(chosen_date) == 0:
              print ('No avaiable dates. Try again.') 
     
-    def find_intersection(self, user_dict, file_dict):
+    def find_intersection(self, user_data, file_dict):
         """Samira's method. Takes a dictionary made from the user's preferences
         dictionary made earlier and a dictionary from the json file. Finds
         the best hotel that matches the user's specified preferences from 
@@ -138,7 +130,7 @@ class Hotel:
         # convert dictionary to set
         # get container of keys in the dictionary 
         for hotel_name, hotel_details in file_dict.items():
-            intersection = user_dict.intersection(hotel_details)
+            intersection = user_data.intersection(hotel_details)
             if len(intersection) > num_intersections:
                 num_intersections = len(intersection)
                 best_hotel = hotel_name

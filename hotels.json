@@ -8,9 +8,9 @@
                 "country": "ROM"
             },
             "prices": {
-                "1_guest": "$120 per night",
-                "2_guests": "$220 per night",
-                "3_guests": "$320 per night"
+                "1_guest": 120,
+                "2_guests": 220,
+                "3_guests": 320
             },
             "amenities": ["Free Wi-Fi", "Spa", "Pool", "Gym", "Restaurant"],
             "rating": 5,
@@ -24,9 +24,9 @@
                 "country": "SVK"
             },
             "prices": {
-                "1_guest": "$150 per night",
-                "2_guests": "$250 per night",
-                "3_guests": "$350 per night"
+                "1_guest": 150,
+                "2_guests": 250,
+                "3_guests": 350
             },
             "amenities": ["Ski Access", "Hot Tub", "Free Parking", "Breakfast Included"],
             "rating": 4,
@@ -42,9 +42,9 @@
                 "country": "USA"
             },
             "prices": {
-                "1_guest": "$180 per night",
-                "2_guests": "$280 per night",
-                "3_guests": "$380 per night"
+                "1_guest": 180,
+                "2_guests": 280,
+                "3_guests": 380
             },
             "amenities": ["Beach Access", "Free Wi-Fi", "Pool", "Spa", "Restaurant"],
             "rating": 5,
@@ -60,9 +60,9 @@
             },
             "stay_type": "camp",
             "prices": {
-                "1_guest": "$130 per night",
-                "2_guests": "$230 per night",
-                "3_guests": "$330 per night"
+                "1_guest": 130,
+                "2_guests": 230,
+                "3_guests": 330
             },
             "amenities": ["Mountain Hiking", "Free Wi-Fi", "Gym", "Bar", "Pet Friendly"],
             "rating": 2,
@@ -77,9 +77,9 @@
             },
             "stay_type": "hotel",
             "prices": {
-                "1_guest": "$200 per night",
-                "2_guests": "$300 per night",
-                "3_guests": "$400 per night"
+                "1_guest": 200,
+                "2_guests": 300,
+                "3_guests": 400
             },
             "amenities": ["Disappearance", "World's Lost Treasures"],
             "rating": 1,
@@ -94,8 +94,8 @@
             },
             "stay_type": "hotel",
             "prices": {
-                "1_guest": "$140 per night",
-                "2_guests": "$240 per night"
+                "1_guest": 50,
+                "2_guests": 80
             },
             "amenities": ["Garden Views", "High Tea Service", "Tennis Lessons"],
             "rating": 3,
@@ -110,9 +110,9 @@
             },
             "stay_type": "hotel",
             "prices": {
-                "1_guest": "$210 per night",
-                "2_guests": "$410 per night",
-                "3_guests": "$610 per night"
+                "1_guest": 210,
+                "2_guests": 410,
+                "3_guests": 610
             },
             "amenities": ["Aquatic life Viewing Decks", "Gourmet Dining", "Disappearance", "World's Lost Treasures"],
             "rating": 5,
@@ -141,9 +141,9 @@
                 }
             },
             "prices": {
-                "1_guest": "$160 per night",
-                "2_guests": "$260 per night",
-                "3_guests": "$360 per night"
+                "1_guest": 160,
+                "2_guests": 260,
+                "3_guests": 360
             },
             "amenities": ["Rooftop Dining", "Fitness Center", "Indoor Pool", "Restaurants", "Outdoor Pool"],
             "rating": 4,
