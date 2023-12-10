@@ -52,7 +52,7 @@ class Hotel:
         user_data['budget'] = int(budget)
         user_data['location'] = location
         user_data['date'] = date
-        
+       # there's no return statement for user_data? 
         
     def check_location(self, preferred_location, max_distance):
         # idek what to do abt this
@@ -61,9 +61,11 @@ class Hotel:
         self.preferred_coords = (preferred_location['latitude'], preferred_location['longitude'])
 
         nearby_hotels = []
+        # what is hotels_data? I think maybe changing it would make more sense
         for hotel in hotels_data:
             hotel_coords = (float(hotel[1]), float(hotel[2]))
             # Assuming latitude is in index 1, and longitude in index 2
+            # maybe calculating distance should be a seperate method?
             distance = (preferred_coords, hotel_coords).miles
 
             if distance <= max_distance:
@@ -85,7 +87,31 @@ class Hotel:
         
         total_cost = self.user_data['guests'] * self.user_data['nights_staying']
         user_budget = self.user_data['budget']
-        
+    #I think you have to determine the key for the price based on number of guests
+    # Like when the user puts the number of guests they have and according to the json format if a user puts 1
+    # then you have to append 1_guest and so forth if there's 2 or 3 guests
+    # so you can you refer to the exact pricing depending on the number of guests
+    # Maybe try something like this?:
+        # num_guests = user_data['guests']
+        # nights_staying = user_data['nights_staying']
+        # user_budget = user_data['budget']
+        # budget_hotels = []
+        #for hotel_name, details in self.hotels_dict.items():
+        # price key based on the number of guests (e.g., 1_guest, 2_guests, etc… refer to our json “prices” parent key)
+        # price_key = f"{num_guests}_guest{'s' if num_guests > 1 else ''}"
+ # nightly price for the specified number of guests
+        # nightly_price = details['prices'].get(price_key)
+        # if nightly_price:
+        # total cost for the stay
+        # total_cost = nightly_price * nights_staying
+        # let’s check if the total cost is within the user's budget
+        # if total_cost <= user_budget:
+        # budget_hotels.append(hotel_name)
+        # if budget_hotels:
+        # print(f"Hotels within budget: {', '.join(budget_hotels)}")
+        # else:
+        # print("No hotels within the inputted budget price")
+        # return budget_hotels
         budget_hotels = []
 
         for hotel_name, details in self.hotels_dict.items():
@@ -101,11 +127,19 @@ class Hotel:
         return budget_hotels
         
     def spend_budget(self, user_data):
-        """Kassia's method
+        """Kassia's method. Determines how the user can use the money they have 
+        leftover after paying the nightly price and displays pie chart of possible 
+        options to spend money
+        
+        Args:
+            user_data(dict): dictionary made of all of the user inputs.
+            
+        Side Effects:
+            Shows pie chart of recommended ways to spend leftover money.
+        
         
         """
         self.user_data = user_data
-       # self.user_data["place_name"] 
         leftover_money = self.user_data['budget'] - (self.user_data['nights_staying'] * self.user_data.get('guests', 1))
         leftover_money = ["Food", "Activities", "Stay", "Shopping", "Spa"]
         percentages = {"Food": 30, "Activities": 20, "Stay": 10, "Shopping": 25, "Spa": 15}
@@ -117,25 +151,35 @@ class Hotel:
         plt.show()
 
 
-    def check_date(self, file_dict):
+    def check_date(self, user_data):
         """Kassia's method. Checks if user's preferred date is within range 
         of possible hotel options.
         
         Args:
-            file_dict (dict): Dictionary of all hotels and their details from
-            an external file.
+            user_data(dict): dictionary made of all of the user inputs
             
             
         Side Effects:
         Prints list with matching hotel name's and dates.
         """
         # go back and fix this
-        chosen_date = [f"{name} {details[1]}" for name, details
-                       in file_dict.items() if self.user_data['date'] == details[1]]
-        print(chosen_date)
+       # chosen_date = [f"{name} {dates[1]}" for name, dates
+                     #  in file_dict.items() if self.user_data['date'] == dates[1]]
+       # print(chosen_date)
         
-        if len(chosen_date) == 0:
-             print ('No avaiable dates. Try again.') 
+       # if len(chosen_date) == 0:
+           #  print ('No avaiable dates. Try again.') 
+         
+        user_preferred_date = self.user_data['date']
+        # find available hotels
+        available_hotels = [hotel_name for hotel_name, hotel_details in self.hotels_dict.items() 
+                            if user_preferred_date in hotel_details['date']]
+        if available_hotels:
+            print(f"Available hotels for {user_preferred_date}: {', '.join(available_hotels)}")
+        else:
+            print('No available dates. Try again.')
+             
+         
     
     def find_intersection(self, user_data, hotels_dict):
         """Samira's method. Takes a dictionary made from the user's preferences
