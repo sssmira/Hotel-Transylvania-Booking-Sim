@@ -214,7 +214,14 @@ class Hotel:
             csv_data (_type_): _description_
         """
         df = pd.read_csv(self.csv_data)
-        filtered_df = df[df['HotelName'] == self.best_hotel]
+        filtered_df = df[df.iloc[:, 0] == self.best_hotel]
+        
+        if not filtered_df.empty:
+            activities = filtered_df.iloc[:, 1].values.flatten().tolist()
+            activities = [activity for activity in activities if pd.notna(activity)]
+            print(f"Activities for {self.best_hotel}: {', '.join(activities)}")
+        else:
+            print(f"No activities found for {self.best_hotel}")
 
         print(filtered_df)
         
