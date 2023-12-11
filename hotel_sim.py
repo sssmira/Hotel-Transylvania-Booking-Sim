@@ -15,14 +15,14 @@ class Hotel:
     """Class docstring do later
     """
    
-    def __init__(self, json_data, csv_data):
+    def __init__(self, json_filepath, csv_filepath):
+        self.hotel_data = read_file_and_store_in_dict(json_filepath)
         self.hotels_dict = {}
-
-        for hotel_data in json_data["places"]:
-            hotel_name = hotel_data["place_name"]
-            location = hotel_data["location"]["country"]
-            prices = hotel_data["prices"]
-            dates = hotel_data["dates"]
+        for hotel_element in self.hotel_data["places"]:
+            hotel_name = hotel_element["place_name"]
+            location = hotel_element["location"]["country"]
+            prices = hotel_element["prices"]
+            dates = hotel_element["dates"]
 
             hotel_info = {
                 "location": location,
@@ -31,63 +31,9 @@ class Hotel:
             }
 
             self.hotels_dict[hotel_name] = hotel_info
-
-        self.csv_data = csv_data
-        self.user_data = {}
-        self.total_cost = 0
-    
-    @staticmethod
-    def user_prefs():
-        """Samira's method
-        Asks the user a series of questions to gain information about user
-        preferences
-        
-        Returns: user_data (dict): Dictionary that has all user responses.
-        """
-        user_data = {}
-        name = Hotel.sanitize_user_input("default", input("Enter your name: "))
-        guests = Hotel.sanitize_user_input("integer", input("Enter the number of guests (1-3): "))
-        nights_staying = Hotel.sanitize_user_input("integer", input("Enter how many nights you will be staying (Integer): "))
-        budget = Hotel.sanitize_user_input("integer", input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): "))
-        location = Hotel.sanitize_user_input("location", input("Enter your preferred location (ROM, SVK, USA, or OCEAN): "))
-        date = input("Enter the month of your visit (Capitalize first letter): ")
-
-        user_data['name'] = name
-        user_data['guests'] = guests if guests is not None else 0
-        user_data["nights_staying"] = nights_staying if nights_staying is not None else 0
-        user_data['budget'] = budget if budget is not None else 0
-        user_data['location'] = location
-        user_data['date'] = date
-
-        print(user_data)
-        return user_data
-    
-    @staticmethod    
-    def sanitize_user_input(input_type, user_input):
-        """Sathya's Method
-        Helper method to sanitize and validate user input based on the input type.
-        It handles different types of inputs such as integer, location, and date.
-        """
-        if input_type == "integer":
-            # Strip non-numeric characters and convert to integer
-            sanitized_input = re.sub(r'[^\d]', '', user_input)
-            try:
-                return int(sanitized_input)
-            except ValueError:
-                print("Invalid input. Please enter a valid number.")
-                return None
-
-        elif input_type == "location":
-            # Uppercase the input and strip non-alphabetic characters
-            return re.sub(r'[^a-zA-Z]', '', user_input).upper()
-
-        elif input_type == "date":
-            # Capitalize the input and strip non-alphabetic characters
-            return re.sub(r'[^a-zA-Z]', '', user_input).capitalize()
-
-        else:
-            # Default case for other inputs like name
-            return user_input.strip()        
+            
+        self.user_data = user_prefs()
+        self.csv_filepath = csv_filepath       
     
     def check_location(self, preferred_location):
         """Checks the user inputted preferred location and builds a list of
@@ -135,8 +81,6 @@ class Hotel:
             
             if total_cost <= self.user_data['budget']:
                 budget_matches.append(hotel_name)
-            else:
-                print("That budget is too small to book a vacation.")
                 
         if budget_matches:
             print(f"Hotels within budget: {', '.join(budget_matches)}")
@@ -186,8 +130,6 @@ class Hotel:
             print("No hotels within the inputted date")
             
         return date_matches
-             
-         
     
     def best_hotel_selector(self, location_matches, budget_matches, date_matches):
         """Samira's method
@@ -222,70 +164,143 @@ class Hotel:
             filtered_df (df): Dataframe containing only the column with the
             best_hotel and its respective activities provided.
         """
-        df = pd.read_csv(self.csv_data)
-        filtered_df = df[df.iloc[:, 0] == self.best_hotel]
+        df = pd.read_csv(self.csv_filepath)
+        location_matches = self.check_location(self.user_data['location'])
+        budget_matches = self.check_budget()
+        date_matches = self.check_date(self.user_data['date'])
+        best_hotel = self.best_hotel_selector(location_matches, budget_matches, date_matches)
+        filtered_df = df[df.iloc[:, 0] == best_hotel]
         
         if not filtered_df.empty:
             activities = filtered_df.iloc[:, 1].values.flatten().tolist()
             activities = [activity for activity in activities if pd.notna(activity)]
-            print(f"Activities for {self.best_hotel}: {', '.join(activities)}")
+            print(f"Activities for {best_hotel}: {', '.join(activities)}")
         else:
-            print(f"No activities found for {self.best_hotel}")
+            print(f"No activities found for {best_hotel}")
 
         print(filtered_df)
         return filtered_df
-    
-    def itinerary(self, filtered_df):
-        """Takes the dataframe created from activities method and takes all its
-        activities as a list. Then using sequence unpacking assigns a time for 
-        each activity in the list to make a mock itinerary.
-
-        Args:
-            filtered_df (df): Dataframe containing only the column with the
-            best_hotel and its respective activities provided.
-        """
-        pass
         
-        
+def user_prefs():
+    """Samira's method
+    Asks the user a series of questions to gain information about user
+    preferences
     
+    Returns: user_data (dict): Dictionary that has all user responses.
+    """
+    user_data = {}
+    name = sanitize_user_input("default", input("Enter your name: "))
+    guests = sanitize_user_input("integer", input("Enter the number of guests (1-3): "))
+    nights_staying = sanitize_user_input("integer", input("Enter how many nights you will be staying (Integer): "))
+    budget = sanitize_user_input("integer", input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): "))
+    location = sanitize_user_input("location", input("Enter your preferred location (ROM, SVK, USA, or OCEAN): "))
+    date = sanitize_user_input("date", input("Enter the month of your visit: "))
 
+    user_data['name'] = name
+    user_data['guests'] = guests if guests is not None else 0
+    user_data["nights_staying"] = nights_staying if nights_staying is not None else 0
+    user_data['budget'] = budget if budget is not None else 0
+    user_data['location'] = location
+    user_data['date'] = date
 
-def read_file(filename):
+    return user_data
+        
+def sanitize_user_input(input_type, user_input):
+    """ Sathya's method
+    Helper method to sanitize and validate user input based on the input type.
+    It handles different types of inputs such as integer, location, and date.
+
+    Parameters:
+    input_type (str): The type of user input to be sanitized. Accepted values are 
+                      'integer', 'location', and 'date'.
+    user_input (str): The user input string that needs to be sanitized.
+
+    Returns:
+    int or str: Sanitized input which is either an integer for 'integer' input type, 
+                or a string for 'location' and 'date' input types. If the input is 
+                invalid for 'integer' type, it returns None.
+
+    Raises:
+    ValueError: If the 'integer' input type is provided and the sanitized input cannot 
+                be converted to an integer.
+    
+    """
+    if input_type == "integer":
+        # Strip non-numeric characters and convert to integer
+        sanitized_input = re.sub(r'[^\d]', '', user_input)
+        try:
+            return int(sanitized_input)
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+            return None
+
+    elif input_type == "location":
+        # Uppercase the input and strip non-alphabetic characters
+        return re.sub(r'[^a-zA-Z]', '', user_input).upper()
+
+    elif input_type == "date":
+        # Capitalize the input and strip non-alphabetic characters
+        return re.sub(r'[^a-zA-Z]', '', user_input).capitalize()
+
+    else:
+        # Default case for other inputs like name
+        return user_input.strip() 
+
+def read_file_and_store_in_dict(filepath):
     """Sathya's function
     Load hotel data from a JSON file and return a list of hotel objects or dictionaries.
 
     Parameters:
-    filename (str): The path to the JSON file containing hotel data.
+    filepath (str): The path to the JSON file containing hotel data.
 
     Returns:
     list: A list of hotel objects or dictionaries with the hotel data.
     """
     try:
-        with open(filename, 'r') as file:
+        with open(filepath, 'r') as file:
             json_data = json.load(file)
             return json_data
     except FileNotFoundError:
-        print(f"The file {filename} was not found.")
+        print(f"The file {filepath} was not found.")
     except json.JSONDecodeError:
-        print(f"Error decoding JSON from the file {filename}.")
+        print(f"Error decoding JSON from the file {filepath}.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+def in_range(actual_cost, user_budget):
+    if (actual_cost < user_budget or actual_cost == user_budget):
+        return True
+    return False
 
 def main(json_filepath, csv_filepath):
     """Finds the the hotel that matches the user preferences based on 
     the user's input using the data from the specificed file.
     """
-    json_data = read_file(json_filepath)
-    csv_data = pd.read_csv(csv_filepath)
+    print('Welcome to the Hotel BOO-king Simulator, find out what vacation is the best for you!')
+    print('------------------------------------------------------------------------------------')
     
-    my_trip = Hotel(json_data, csv_data)
-    user_data = my_trip.user_prefs()
-    location_matches = my_trip.check_location(user_data['location'])
-    date_matches = my_trip.check_date(user_data['date'])
-    budget_matches = my_trip.check_budget()
-    my_trip.spend_budget(user_data)
-    best_hotel = my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
-    activities_df = my_trip.activities()
+    my_trip = Hotel(json_filepath, csv_filepath)
+    choice = input("""
+                   Choose which way to filter the best fitting hotels:
+          1.) Filter by Location
+          2.) Filter by Budget
+          3.) Filter by Date
+          4.) Get our perspective on the best hotel for you!
+          
+          Pick one: 
+          """)
+    
+    if (choice == str(1)):
+        my_trip.check_location(my_trip.user_data['location'])
+    elif (choice == str(2)):
+        my_trip.check_budget()
+    elif (choice == str(3)):
+        my_trip.check_date(my_trip.user_data['date'])
+    else:
+        location_matches = my_trip.check_location(my_trip.user_data['location'])
+        budget_matches = my_trip.check_budget()
+        date_matches = my_trip.check_date(my_trip.user_data['date'])
+        my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
 
 def parse_args(arglist):
     """Parse command-line arguments.
