@@ -34,9 +34,8 @@ class Hotel:
         self.csv_data = csv_data
         self.user_data = {}
         self.total_cost = 0
-        
     
-    def user_prefs(self):
+    def user_prefs():
         """Samira's method
         Asks the user a series of questions to gain information about user
         preferences
@@ -44,22 +43,48 @@ class Hotel:
         Returns: user_data (dict): Dictionary that has all user responses.
         """
         user_data = {}
-        name = input("Enter your name: ")
-        guests = input("Enter the number of guests (1-3): ")
-        nights_staying = input("Enter how many nights you will be staying (Integer): ")
-        budget = input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): ")
-        location = input("Enter your preferred location (ROM, SVK, USA, or OCEAN)): ")
-        date = input("Enter the month of your visit (Capitalize first letter): ")
-        
+        name = sanitize_user_input("default", input("Enter your name: "))
+        guests = sanitize_user_input("integer", input("Enter the number of guests (1-3): "))
+        nights_staying = sanitize_user_input("integer", input("Enter how many nights you will be staying (Integer): "))
+        budget = sanitize_user_input("integer", input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): "))
+        location = sanitize_user_input("location", input("Enter your preferred location (ROM, SVK, USA, or OCEAN): "))
+        date = sanitize_user_input("month_letter", input("Enter the first letter of the month of your visit: "))
+
         user_data['name'] = name
-        user_data['guests'] = int(guests)
-        user_data["nights_staying"] = int(nights_staying)
-        user_data['budget'] = int(budget)
+        user_data['guests'] = guests if guests is not None else 0
+        user_data["nights_staying"] = nights_staying if nights_staying is not None else 0
+        user_data['budget'] = budget if budget is not None else 0
         user_data['location'] = location
         user_data['date'] = date
-        
+
         return user_data
         
+    def sanitize_user_input(input_type, user_input):
+        """
+        Helper method to sanitize and validate user input based on the input type.
+        It handles different types of inputs such as integer, location, and date.
+        """
+        if input_type == "integer":
+            # Strip non-numeric characters and convert to integer
+            sanitized_input = re.sub(r'[^\d]', '', user_input)
+            try:
+                return int(sanitized_input)
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
+                return None
+
+        elif input_type == "location":
+            # Uppercase the input and strip non-alphabetic characters
+            return re.sub(r'[^a-zA-Z]', '', user_input).upper()
+
+        elif input_type == "date":
+            # Capitalize the input and strip non-alphabetic characters
+            return re.sub(r'[^a-zA-Z]', '', user_input).capitalize()
+
+        else:
+            # Default case for other inputs like name
+            return user_input.strip()        
+    
     def check_location(self, preferred_location):
         """Checks the user inputted preferred location and builds a list of
         hotels that are located in that preferred location.
