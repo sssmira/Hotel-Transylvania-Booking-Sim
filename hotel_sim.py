@@ -178,7 +178,12 @@ class Hotel:
         """
         all_matches = location_matches + budget_matches + date_matches
         best_hotel = max(set(all_matches), key=all_matches.count)
+        print(f"The best vacation spot for you is {best_hotel}")
         return best_hotel 
+    
+    
+    
+
 
 def read_file(filename):
     """Sathya's function
