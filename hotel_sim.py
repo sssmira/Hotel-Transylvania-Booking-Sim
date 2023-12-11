@@ -36,6 +36,7 @@ class Hotel:
         self.user_data = {}
         self.total_cost = 0
     
+    @staticmethod
     def user_prefs():
         """Samira's method
         Asks the user a series of questions to gain information about user
@@ -44,12 +45,12 @@ class Hotel:
         Returns: user_data (dict): Dictionary that has all user responses.
         """
         user_data = {}
-        name = sanitize_user_input("default", input("Enter your name: "))
-        guests = sanitize_user_input("integer", input("Enter the number of guests (1-3): "))
-        nights_staying = sanitize_user_input("integer", input("Enter how many nights you will be staying (Integer): "))
-        budget = sanitize_user_input("integer", input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): "))
-        location = sanitize_user_input("location", input("Enter your preferred location (ROM, SVK, USA, or OCEAN): "))
-        date = sanitize_user_input("month_letter", input("Enter the first letter of the month of your visit: "))
+        name = Hotel.sanitize_user_input("default", input("Enter your name: "))
+        guests = Hotel.sanitize_user_input("integer", input("Enter the number of guests (1-3): "))
+        nights_staying = Hotel.sanitize_user_input("integer", input("Enter how many nights you will be staying (Integer): "))
+        budget = Hotel.sanitize_user_input("integer", input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): "))
+        location = Hotel.sanitize_user_input("location", input("Enter your preferred location (ROM, SVK, USA, or OCEAN): "))
+        date = Hotel.sanitize_user_input("month_letter", input("Enter the first letter of the month of your visit: "))
 
         user_data['name'] = name
         user_data['guests'] = guests if guests is not None else 0
@@ -59,7 +60,8 @@ class Hotel:
         user_data['date'] = date
 
         return user_data
-        
+    
+    @staticmethod    
     def sanitize_user_input(input_type, user_input):
         """
         Helper method to sanitize and validate user input based on the input type.
