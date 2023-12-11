@@ -33,7 +33,6 @@ class Hotel:
 
         self.csv_data = csv_data
         
-        best_fit_hotel = {}
     
     def user_prefs(self):
         """_summary_
@@ -52,38 +51,28 @@ class Hotel:
         user_data['budget'] = int(budget)
         user_data['location'] = location
         user_data['date'] = date
-       # there's no return statement for user_data? 
         
-    def check_location(self, preferred_location, max_distance):
-        # idek what to do abt this
+        return user_data
         
-        # Define the coordinates of the preferred location
-        self.preferred_coords = (preferred_location['latitude'], preferred_location['longitude'])
+    def check_location(self, preferred_location):
+        """Checks the user inputted preferred location and builds a list of
+        hotels that are located in that preferred location.
 
-        nearby_hotels = []
-        # what is hotels_data? I think maybe changing it would make more sense
-        for hotel in hotels_data:
-            hotel_coords = (float(hotel[1]), float(hotel[2]))
-            # Assuming latitude is in index 1, and longitude in index 2
-            # maybe calculating distance should be a seperate method?
-            distance = (preferred_coords, hotel_coords).miles
-
-            if distance <= max_distance:
-                nearby_hotels.append({'name': hotel[0], 'distance': distance})
-
-        return nearby_hotels
-
-    def check_budget(self, user_budget):
-        """Jeni's method
-        checks if user's budget is withing range of possible hotel options.
-        
         Args:
-            user_budget (int): The user's inputted budget amount
-            file_dict (dict): Dictionary of all hotels and their details from an external file.
-            
+            preferred_location (str): Name of preferred country/location
+            "ROM", "SVK", "USA", or "OCEAN".
+
         Returns:
-            list: A list of hotels that are within the user's specified budget.
+            matching_hotels (list): Lists of hotels that match the user's 
+            preferred country/location preference
         """
+        matching_hotels = []
+        for hotel_name, details in self.hotels_dict.items():
+            if details["location"] == preferred_location:
+                matching_hotels.append(hotel_name)
+        return matching_hotels
+
+    def check_budget(self, preferred_budget):
         
         total_cost = self.user_data['guests'] * self.user_data['nights_staying']
         user_budget = self.user_data['budget']
