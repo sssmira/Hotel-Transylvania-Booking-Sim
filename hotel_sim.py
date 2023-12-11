@@ -32,6 +32,7 @@ class Hotel:
             self.hotels_dict[hotel_name] = hotel_info
 
         self.csv_data = csv_data
+        self.user_data = {}
         
     
     def user_prefs(self):
@@ -67,57 +68,50 @@ class Hotel:
             "ROM", "SVK", "USA", or "OCEAN".
 
         Returns:
-            matching_hotels (list): Lists of hotels that match the user's 
+            location_matches (list): Lists of hotels that match the user's 
             preferred country/location preference
         """
-        matching_hotels = []
+        location_matches = []
         for hotel_name, details in self.hotels_dict.items():
             if details["location"] == preferred_location:
-                matching_hotels.append(hotel_name)
-        return matching_hotels
+                location_matches.append(hotel_name)
+                
+        if location_matches:
+            print(f"Hotels within location: {', '.join(location_matches)}")
+        else:
+            print("No hotels within the inputted location")
+            
+        return location_matches
 
-    def check_budget(self, preferred_budget):
-        
-        total_cost = self.user_data['guests'] * self.user_data['nights_staying']
-        user_budget = self.user_data['budget']
-    #I think you have to determine the key for the price based on number of guests
-    # Like when the user puts the number of guests they have and according to the json format if a user puts 1
-    # then you have to append 1_guest and so forth if there's 2 or 3 guests
-    # so you can you refer to the exact pricing depending on the number of guests
-    # Maybe try something like this?:
-        # num_guests = user_data['guests']
-        # nights_staying = user_data['nights_staying']
-        # user_budget = user_data['budget']
-        # budget_hotels = []
-        #for hotel_name, details in self.hotels_dict.items():
-        # price key based on the number of guests (e.g., 1_guest, 2_guests, etc… refer to our json “prices” parent key)
-        # price_key = f"{num_guests}_guest{'s' if num_guests > 1 else ''}"
- # nightly price for the specified number of guests
-        # nightly_price = details['prices'].get(price_key)
-        # if nightly_price:
-        # total cost for the stay
-        # total_cost = nightly_price * nights_staying
-        # let’s check if the total cost is within the user's budget
-        # if total_cost <= user_budget:
-        # budget_hotels.append(hotel_name)
-        # if budget_hotels:
-        # print(f"Hotels within budget: {', '.join(budget_hotels)}")
-        # else:
-        # print("No hotels within the inputted budget price")
-        # return budget_hotels
-        budget_hotels = []
+    def check_budget(self):
+        """Jeni's method
+        Uses data from user_prefs to check how much it costs for inputted number 
+        of guests for however many inputted nights. Finds hotels that match 
+        inputted budget.
 
+        Returns:
+            budget_matches (list): List of all hotels that match the inputted
+            budget
+        """
+        budget_matches = []
         for hotel_name, details in self.hotels_dict.items():
-            hotel_price = details.get("prices", {})
-            if hotel_price <= user_budget and total_cost <= user_budget:
-                budget_hotels.append(hotel_name)
-        
-        if budget_hotels:
-            print(f"Hotels within budget: {', '.join(budget_hotels)}")
+            num_guests = self.user_data['guests']
+            num_nights = self.user_data['nights_staying']
+            price_key = f"{num_guests}_guest{'s' if num_guests > 1 else ''}"
+            nightly_price = details['prices'].get(price_key)
+
+            total_cost = nightly_price * num_nights
+
+            if total_cost <= self.user_data['budget']:
+                budget_matches.append(hotel_name)
+            else:
+                print("That budget is too small to book a vacation.")
+                
+        if budget_matches:
+            print(f"Hotels within budget: {', '.join(budget_matches)}")
         else:
             print("No hotels within the inputted budget price")
-            
-        return budget_hotels
+        return budget_matches
         
     def spend_budget(self, user_data):
         """Kassia's method. Determines how the user can use the money they have 
@@ -152,41 +146,35 @@ class Hotel:
         Args:
             preferred_date (str): Name of month that user prefers.
         Returns:
-            matching_hotels (list): Lists of hotels that match the user's 
+            date_matches (list): Lists of hotels that match the user's 
             preferred date preference.
         """
-        matching_hotels = [hotel_name for hotel_name, details in self.hotels_dict.items() if details["date"] == preferred_date]
-        return matching_hotels
+        date_matches = [hotel_name for hotel_name, details in self.hotels_dict.items() if preferred_date in details["date"]]
+        
+        if date_matches:
+            print(f"Hotels within date: {', '.join(date_matches)}")
+        else:
+            print("No hotels within the inputted date")
+            
+        return date_matches
              
          
     
-    def find_intersection(self, user_data, hotels_dict):
-        """Samira's method. Takes a dictionary made from the user's preferences
-        dictionary made earlier and a dictionary from the json file. Finds
-        the best hotel that matches the user's specified preferences from 
-        earlier.
-        
+    def best_hotel_selector(self, location_matches, budget_matches, date_matches):
+        """Using the three lists of matches; location_matches, budget_matches,
+        and date_matches from the check_location, check_budget, and check_date
+        methods respectively, create one list combining all hotel names. Then 
+        using a lambda expression, find the most common occuring hotel name from
+        the list and set it as the best_hotel
+
         Args:
-            user_dict (dict): Dictionary of all the user's answers for each
-            question asked earlier, has their preference in hotels.
-            file_dict (dict): Dictionary of all hotels and their details from
-            an external file.
-        
-        Returns:
-            best_hotel (dict key): Name of the best hotel found from 
-            intersection
+            location_matches (list): _description_
+            budget_matches (list): _description_
+            date_matches (list): _description_
         """
-        best_hotel = None
-        num_intersections = 0
-        
-        # convert dictionary to set
-        # get container of keys in the dictionary 
-        for hotel_name, hotel_details in hotels_dict.items():
-            intersection = user_data.intersection(hotel_details)
-            if len(intersection) > num_intersections:
-                num_intersections = len(intersection)
-                best_hotel = hotel_name
-        return best_hotel
+        all_matches = location_matches + budget_matches + date_matches
+        best_hotel = max(set(all_matches), key=all_matches.count)
+        return best_hotel 
 
 def read_file(filename):
     """Sathya's function
@@ -217,7 +205,7 @@ def main(json_filepath, csv_filepath):
     csv_data = pd.read_csv(csv_filepath)
     
     my_trip = Hotel(json_data, csv_data)
-
+    user_data = my_trip.user_prefs()
 
 def parse_args(arglist):
     """Parse command-line arguments.
