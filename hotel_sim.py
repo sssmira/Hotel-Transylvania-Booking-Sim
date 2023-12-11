@@ -12,8 +12,49 @@ the best vacation spot and best vacation activities for the user based on their
 preferences.
 """
 class Hotel:
-    """Class docstring do later
     """
+    A class to represent a hotel booking simulator, particularly themed around 
+    the concept of 'Hotel Transylvania', known as the 'Boo-king Program'.
+
+    This class is designed to interact with hotel data stored in a JSON file and 
+    user preferences to assist in finding the best vacation spot and activities 
+    based on user-specified criteria such as location, budget, and dates. 
+
+    Attributes:
+        hotel_data (dict): A dictionary containing the hotel data loaded from a JSON file.
+        hotels_dict (dict): A dictionary where each key is a hotel name and the value 
+                            is another dictionary containing the hotel's location, 
+                            pricing, and available dates.
+        user_data (dict): A dictionary containing user preferences such as the number of 
+                          guests, nights staying, budget, preferred location, and date.
+        csv_filepath (str): The file path to a CSV file containing activities associated 
+                            with different hotels.
+
+    Methods:
+        __init__(json_filepath, csv_filepath): Initializes the Hotel class with hotel data 
+                                               from the specified JSON and CSV file paths.
+        __str__(): Provides a human-readable representation of the Hotel instance, 
+                   detailing the stored hotel data.
+        __getitem__(hotel_name): Allows access to specific hotel details using the hotel's 
+                                 name as a key.
+        check_location(preferred_location): Filters and returns a list of hotels based on 
+                                            the user's preferred location.
+        check_budget(): Filters and returns a list of hotels within the user's budget based 
+                        on the number of guests and nights.
+        spend_budget(user_data): Suggests ways to spend leftover money after hotel expenses 
+                                 and displays a pie chart of possible options.
+        check_date(preferred_date): Filters and returns a list of hotels available in the 
+                                    user's preferred date.
+        best_hotel_selector(location_matches, budget_matches, date_matches): Determines 
+                                                                            the best hotel 
+                                                                            match based on 
+                                                                            the intersection 
+                                                                            of location, 
+                                                                            budget, and date 
+                                                                            preferences.
+        activities(): Filters and displays activities available at or around the best-matched 
+                      hotel.
+        """
    
     def __init__(self, json_filepath, csv_filepath):
         self.hotel_data = read_file_and_store_in_dict(json_filepath)
@@ -33,8 +74,42 @@ class Hotel:
             self.hotels_dict[hotel_name] = hotel_info
             
         self.user_data = user_prefs()
-        self.csv_filepath = csv_filepath       
+        self.csv_filepath = csv_filepath
+        
+    def __str__(self):
+        """
+        Returns a string representation of the Hotel instance, providing an overview of 
+        the stored hotel data.
+
+        Returns:
+            str: A string describing the hotels stored in the instance, including their 
+                names and key information.
+        """
+        hotel_overview = "Hotel Overview:\n"
+        for hotel_name, details in self.hotels_dict.items():
+            hotel_overview += f"Hotel Name: {hotel_name}, Location: {details['location']}, Prices: {details['prices']}, Available Dates: {details['date']}\n"
+        return hotel_overview
     
+    def __getitem__(self, hotel_name):
+        """
+        Allows access to hotel details using the hotel's name.
+
+        Args:
+            hotel_name (str): The name of the hotel whose details are to be accessed.
+
+        Returns:
+            dict: A dictionary containing details of the specified hotel, such as location, 
+                prices, and available dates.
+
+        Raises:
+            KeyError: If the specified hotel name is not found in the hotel data.
+        """
+        try:
+            return self.hotels_dict[hotel_name]
+        except KeyError:
+            print(f"Hotel '{hotel_name}' not found.")
+            raise
+
     def check_location(self, preferred_location):
         """Checks the user inputted preferred location and builds a list of
         hotels that are located in that preferred location.
