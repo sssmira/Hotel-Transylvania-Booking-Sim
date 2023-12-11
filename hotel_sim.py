@@ -181,7 +181,18 @@ class Hotel:
         print(f"The best vacation spot for you is {best_hotel}")
         return best_hotel 
     
-    
+    def filter_csv(self):
+        """Method to filter the csv to only the column where its name  matches
+        best_hotel using pandas.
+
+        Args:
+            csv_data (_type_): _description_
+        """
+        df = pd.read_csv(self.csv_data)
+        filtered_df = df[df['HotelName'] == self.best_hotel]
+
+        print(filtered_df)
+        
     
 
 
