@@ -48,7 +48,7 @@ class Hotel:
         guests = input("Enter the number of guests (1-3): ")
         nights_staying = input("Enter how many nights you will be staying (Integer): ")
         budget = input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): ")
-        location = input("Enter your preferred (ROM, SVK, USA, or OCEAN)): ")
+        location = input("Enter your preferred location (ROM, SVK, USA, or OCEAN)): ")
         date = input("Enter the month of your visit (Capitalize first letter): ")
         
         user_data['name'] = name
