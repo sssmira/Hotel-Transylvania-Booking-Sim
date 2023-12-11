@@ -33,6 +33,7 @@ class Hotel:
 
         self.csv_data = csv_data
         self.user_data = {}
+        self.total_cost = 0
         
     
     def user_prefs(self):
@@ -101,7 +102,8 @@ class Hotel:
             nightly_price = details['prices'].get(price_key)
 
             total_cost = nightly_price * num_nights
-
+            self.total_cost = total_cost
+            
             if total_cost <= self.user_data['budget']:
                 budget_matches.append(hotel_name)
             else:
@@ -122,12 +124,10 @@ class Hotel:
             user_data(dict): dictionary made of all of the user inputs.
             
         Side Effects:
-            Shows pie chart of recommended ways to spend leftover money.
-        
-        
+            Shows pie chart of recommended ways to spend leftover money.    
         """
         self.user_data = user_data
-        leftover_money = self.user_data['budget'] - (self.user_data['nights_staying'] * self.user_data.get('guests', 1))
+        leftover_money = self.user_data['budget'] - self.total_cost
         leftover_money = ["Food", "Activities", "Stay", "Shopping", "Spa"]
         percentages = {"Food": 30, "Activities": 20, "Stay": 10, "Shopping": 25, "Spa": 15}
         spending = {activity: leftover_money * (percent/100) for activity, percent in percentages.items()}
@@ -161,16 +161,20 @@ class Hotel:
          
     
     def best_hotel_selector(self, location_matches, budget_matches, date_matches):
-        """Using the three lists of matches; location_matches, budget_matches,
+        """Samira's method
+        Using the three lists of matches; location_matches, budget_matches,
         and date_matches from the check_location, check_budget, and check_date
         methods respectively, create one list combining all hotel names. Then 
         using a lambda expression, find the most common occuring hotel name from
         the list and set it as the best_hotel
 
         Args:
-            location_matches (list): _description_
-            budget_matches (list): _description_
-            date_matches (list): _description_
+            location_matches (list): Lists of hotels that match the user's 
+            preferred country/location preference
+            budget_matches (list): List of all hotels that match the inputted
+            budget
+            date_matches (list): Lists of hotels that match the user's 
+            preferred date preference.
         """
         all_matches = location_matches + budget_matches + date_matches
         best_hotel = max(set(all_matches), key=all_matches.count)
@@ -227,4 +231,5 @@ def parse_args(arglist):
     return parser.parse_args(arglist)
   
 if __name__ == '__main__':
-    main()
+    args = parse_args(sys.argv[1:])
+    main(args.json_filepath, args.csv_filepath)
