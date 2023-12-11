@@ -50,7 +50,7 @@ class Hotel:
         nights_staying = Hotel.sanitize_user_input("integer", input("Enter how many nights you will be staying (Integer): "))
         budget = Hotel.sanitize_user_input("integer", input("Enter the max you are willing to spend for the entire trip (Integer, no dollar sign): "))
         location = Hotel.sanitize_user_input("location", input("Enter your preferred location (ROM, SVK, USA, or OCEAN): "))
-        date = Hotel.sanitize_user_input("month_letter", input("Enter the first letter of the month of your visit: "))
+        date = input("Enter the month of your visit (Capitalize first letter): ")
 
         user_data['name'] = name
         user_data['guests'] = guests if guests is not None else 0
@@ -59,11 +59,12 @@ class Hotel:
         user_data['location'] = location
         user_data['date'] = date
 
+        print(user_data)
         return user_data
     
     @staticmethod    
     def sanitize_user_input(input_type, user_input):
-        """
+        """Sathya's Method
         Helper method to sanitize and validate user input based on the input type.
         It handles different types of inputs such as integer, location, and date.
         """
@@ -209,12 +210,17 @@ class Hotel:
         print(f"The best vacation spot for you is {best_hotel}")
         return best_hotel 
     
-    def filter_csv(self):
-        """Method to filter the csv to only the column where its name  matches
-        best_hotel using pandas.
-
-        Args:
-            csv_data (_type_): _description_
+    def activities(self):
+        """Method to filter the csv to only the column where its name matches
+        best_hotel using pandas to display activities provided by or
+        around the hotel
+        
+        Side effects:
+            filtered (df): Prints this dataframe for viewing
+            
+        Returns:
+            filtered_df (df): Dataframe containing only the column with the
+            best_hotel and its respective activities provided.
         """
         df = pd.read_csv(self.csv_data)
         filtered_df = df[df.iloc[:, 0] == self.best_hotel]
@@ -227,6 +233,19 @@ class Hotel:
             print(f"No activities found for {self.best_hotel}")
 
         print(filtered_df)
+        return filtered_df
+    
+    def itinerary(self, filtered_df):
+        """Takes the dataframe created from activities method and takes all its
+        activities as a list. Then using sequence unpacking assigns a time for 
+        each activity in the list to make a mock itinerary.
+
+        Args:
+            filtered_df (df): Dataframe containing only the column with the
+            best_hotel and its respective activities provided.
+        """
+        pass
+        
         
     
 
@@ -261,6 +280,10 @@ def main(json_filepath, csv_filepath):
     
     my_trip = Hotel(json_data, csv_data)
     user_data = my_trip.user_prefs()
+    location_matches = my_trip.check_location(user_data['location'])
+    date_matches = my_trip.check_date(user_data['date'])
+    best_hotel = my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
+
 
 def parse_args(arglist):
     """Parse command-line arguments.
