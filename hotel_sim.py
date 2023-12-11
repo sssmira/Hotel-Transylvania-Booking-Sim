@@ -35,7 +35,11 @@ class Hotel:
         
     
     def user_prefs(self):
-        """_summary_
+        """Samira's method
+        Asks the user a series of questions to gain information about user
+        preferences
+        
+        Returns: user_data (dict): Dictionary that has all user responses.
         """
         user_data = {}
         name = input("Enter your name: ")
@@ -140,33 +144,19 @@ class Hotel:
         plt.show()
 
 
-    def check_date(self, user_data):
-        """Kassia's method. Checks if user's preferred date is within range 
-        of possible hotel options.
-        
+    def check_date(self, preferred_date):
+        """Kassia's method
+        Check's user inputted preferred month of stay and builds a list of
+        hotels that are available to stay at during that month.
+
         Args:
-            user_data(dict): dictionary made of all of the user inputs
-            
-            
-        Side Effects:
-        Prints list with matching hotel name's and dates.
+            preferred_date (str): Name of month that user prefers.
+        Returns:
+            matching_hotels (list): Lists of hotels that match the user's 
+            preferred date preference.
         """
-        # go back and fix this
-       # chosen_date = [f"{name} {dates[1]}" for name, dates
-                     #  in file_dict.items() if self.user_data['date'] == dates[1]]
-       # print(chosen_date)
-        
-       # if len(chosen_date) == 0:
-           #  print ('No avaiable dates. Try again.') 
-         
-        user_preferred_date = self.user_data['date']
-        # find available hotels
-        available_hotels = [hotel_name for hotel_name, hotel_details in self.hotels_dict.items() 
-                            if user_preferred_date in hotel_details['date']]
-        if available_hotels:
-            print(f"Available hotels for {user_preferred_date}: {', '.join(available_hotels)}")
-        else:
-            print('No available dates. Try again.')
+        matching_hotels = [hotel_name for hotel_name, details in self.hotels_dict.items() if details["date"] == preferred_date]
+        return matching_hotels
              
          
     
