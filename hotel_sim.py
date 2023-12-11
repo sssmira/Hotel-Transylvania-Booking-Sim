@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import re
 
 """Hotel Transylvania themed hotel booking simulator. Or otherwise known as our
 'Boo-king Program'. This program takes in a JSON file and CSV file to find
