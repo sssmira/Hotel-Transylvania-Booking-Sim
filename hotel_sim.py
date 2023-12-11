@@ -282,8 +282,10 @@ def main(json_filepath, csv_filepath):
     user_data = my_trip.user_prefs()
     location_matches = my_trip.check_location(user_data['location'])
     date_matches = my_trip.check_date(user_data['date'])
+    budget_matches = my_trip.check_budget()
+    my_trip.spend_budget(user_data)
     best_hotel = my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
-
+    activities_df = my_trip.activities()
 
 def parse_args(arglist):
     """Parse command-line arguments.
