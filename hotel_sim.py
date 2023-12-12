@@ -227,13 +227,13 @@ class Hotel:
         print(f"The best vacation spot for you is {best_hotel}")
         return best_hotel 
     
-    def activities(self):
+    def filtered_df(self):
         """Method to filter the csv to only the column where its name matches
         best_hotel using pandas to display activities provided by or
         around the hotel
         
         Side effects:
-            filtered (df): Prints this dataframe for viewing
+            filtered_df (df): Prints this dataframe for viewing
             
         Returns:
             filtered_df (df): Dataframe containing only the column with the
@@ -376,6 +376,8 @@ def main(json_filepath, csv_filepath):
         budget_matches = my_trip.check_budget()
         date_matches = my_trip.check_date(my_trip.user_data['date'])
         my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
+    
+    activities = my_trip.filtered_df()
 
 def parse_args(arglist):
     """Parse command-line arguments.
