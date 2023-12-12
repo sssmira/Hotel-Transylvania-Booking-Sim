@@ -239,7 +239,18 @@ class Hotel:
             filtered_df (df): Dataframe containing only the column with the
             best_hotel and its respective activities provided.
         """
-        pass
+        #df = pd.read_csv("activities.csv")
+        #best_hotel = self.best_hotel_selector([], [], [])
+        
+        #if best_hotel in df.columns:
+            #filtered_df = df[[best_hotel]]
+            #print(filtered_df)
+            #return filtered_df
+        #else:
+            #print(f"Activites for {best_hotel} are not applicable.")
+            #return pd.DataFrame()
+pass
+    
         
 def user_prefs():
     """Samira's method
