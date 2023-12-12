@@ -176,7 +176,7 @@ class Hotel:
         """
         self.user_data = user_data
         leftover_money = self.user_data['budget'] - self.total_cost
-        leftover_money = ["Food", "Activities", "Stay", "Shopping", "Spa"]
+        #leftover_money = ["Food", "Activities", "Stay", "Shopping", "Spa"]
         percentages = {"Food": 30, "Activities": 20, "Stay": 10, "Shopping": 25, "Spa": 15}
         spending = {activity: leftover_money * (percent/100) for activity, percent in percentages.items()}
         activites = list(spending.keys())
@@ -239,7 +239,20 @@ class Hotel:
             filtered_df (df): Dataframe containing only the column with the
             best_hotel and its respective activities provided.
         """
-        pass
+        df = pd.read_csv("activities.csv")
+        best_hotel = self.best_hotel_selector([], [], [])
+        #pass 3 arguments
+        #intialize into empty list
+        
+        if best_hotel in df.columns:
+            filtered_df = df[[best_hotel]]
+            print(filtered_df)
+            return filtered_df
+        else:
+            print(f"Activites for {best_hotel} are not applicable.")
+            return pd.DataFrame()
+
+    
         
 def user_prefs():
     """Samira's method
@@ -351,11 +364,11 @@ def main(json_filepath, csv_filepath):
           """)
     
     if (choice == str(1)):
-        my_trip.check_location(my_trip.user_data['location'])
+        location_matches = my_trip.check_location(my_trip.user_data['location'])
     elif (choice == str(2)):
-        my_trip.check_budget()
+        budget_matches =  my_trip.check_budget()
     elif (choice == str(3)):
-        my_trip.check_date(my_trip.user_data['date'])
+        date_matches = my_trip.check_date(my_trip.user_data['date'])
     else:
         location_matches = my_trip.check_location(my_trip.user_data['location'])
         budget_matches = my_trip.check_budget()
