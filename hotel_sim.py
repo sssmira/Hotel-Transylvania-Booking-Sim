@@ -239,22 +239,7 @@ class Hotel:
             filtered_df (df): Dataframe containing only the column with the
             best_hotel and its respective activities provided.
         """
-        df = pd.read_csv(self.csv_filepath)
-        location_matches = self.check_location(self.user_data['location'])
-        budget_matches = self.check_budget()
-        date_matches = self.check_date(self.user_data['date'])
-        best_hotel = self.best_hotel_selector(location_matches, budget_matches, date_matches)
-        filtered_df = df[df.iloc[:, 0] == best_hotel]
-        
-        if not filtered_df.empty:
-            activities = filtered_df.iloc[:, 1].values.flatten().tolist()
-            activities = [activity for activity in activities if pd.notna(activity)]
-            print(f"Activities for {best_hotel}: {', '.join(activities)}")
-        else:
-            print(f"No activities found for {best_hotel}")
-
-        print(filtered_df)
-        return filtered_df
+        pass
         
 def user_prefs():
     """Samira's method
