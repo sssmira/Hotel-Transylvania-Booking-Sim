@@ -127,10 +127,7 @@ class Hotel:
             if details["location"] == preferred_location:
                 location_matches.append(hotel_name)
                 
-        if location_matches:
-            print(f"Hotels within location: {', '.join(location_matches)}")
-        else:
-            print("No hotels within the inputted location")
+        print(f"Hotels within location: {', '.join(location_matches)}")if location_matches else print("No hotels within the inputted location")
             
         return location_matches
 
