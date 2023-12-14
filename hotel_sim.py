@@ -64,11 +64,16 @@ class Hotel:
             location = hotel_element["location"]["country"]
             prices = hotel_element["prices"]
             dates = hotel_element["dates"]
+            amenities = hotel_element["amenities"]
+            rating = hotel_element["rating"]
 
             hotel_info = {
                 "location": location,
                 "prices": prices,
-                "date": dates
+                "date": dates,
+                "amenities": amenities,
+                "rating": rating
+                
             }
 
             self.hotels_dict[hotel_name] = hotel_info
@@ -91,7 +96,7 @@ class Hotel:
         return hotel_overview
     
     def __getitem__(self, hotel_name):
-        """
+        """Samira's method
         Allows access to hotel details using the hotel's name.
 
         Args:
@@ -105,7 +110,7 @@ class Hotel:
             KeyError: If the specified hotel name is not found in the hotel data.
         """
         try:
-            return self.hotels_dict[hotel_name]
+            print(f"Best hotel details: {self.hotels_dict[hotel_name]}") 
         except KeyError:
             print(f"Hotel '{hotel_name}' not found.")
             raise
@@ -161,7 +166,8 @@ class Hotel:
         return budget_matches
         
     def spend_budget(self, user_data):
-        """Kassia's method. Determines how the user can use the money they have 
+        """Kassia's method. 
+        Determines how the user can use the money they have 
         leftover after paying the nightly price and displays pie chart of possible 
         options to spend money
         
@@ -202,6 +208,18 @@ class Hotel:
             print("No hotels within the inputted date")
             
         return date_matches
+    
+    def first_hotel_selector(self, match_list):
+        """ Samira's method
+        When there is only one list we are checking for; either location, date, 
+        or budget. Just grabs the first item in the list as the best hotel.
+
+        Args:
+            match_list (list): List of all possible hotel matches
+        """
+        best_hotel = match_list[0]
+        print(f"The best vacation spot for you is {best_hotel}")
+        return best_hotel
     
     def best_hotel_selector(self, location_matches, budget_matches, date_matches):
         """Samira's method
@@ -380,17 +398,24 @@ def main(json_filepath, csv_filepath):
     
     if (choice == str(1)):
         location_matches = my_trip.check_location(my_trip.user_data['location'])
+        best_hotel = my_trip.first_hotel_selector(location_matches)
+        my_trip.__getitem__(best_hotel)
     elif (choice == str(2)):
         budget_matches = my_trip.check_budget()
+        best_hotel = my_trip.first_hotel_selector(budget_matches)
+        my_trip.__getitem__(best_hotel)
     elif (choice == str(3)):
         date_matches = my_trip.check_date(my_trip.user_data['date'])
+        best_hotel = my_trip.first_hotel_selector(date_matches)
+        my_trip.__getitem__(best_hotel)
     elif (choice == str(4)):
         activity_matches = my_trip.check_activity()
     else:
         location_matches = my_trip.check_location(my_trip.user_data['location'])
         budget_matches = my_trip.check_budget()
         date_matches = my_trip.check_date(my_trip.user_data['date'])
-        my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
+        best_hotel = my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
+        my_trip.__getitem__(best_hotel)
     
     activities = my_trip.filtered_df()
 
