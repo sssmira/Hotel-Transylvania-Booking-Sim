@@ -236,18 +236,19 @@ class Hotel:
             filtered_df (df): Dataframe containing only the column with the
             best_hotel and its respective activities provided.
         """
-        df = pd.read_csv("activities.csv")
-        best_hotel = self.best_hotel_selector([], [], [])
+        #df = pd.read_csv("activities.csv")
+        #best_hotel = self.best_hotel_selector([], [], [])
         #pass 3 arguments
         #intialize into empty list
         
-        if best_hotel in df.columns:
-            filtered_df = df[[best_hotel]]
-            print(filtered_df)
-            return filtered_df
-        else:
-            print(f"Activites for {best_hotel} are not applicable.")
-            return pd.DataFrame()
+        #if best_hotel in df.columns:
+            #filtered_df = df[[best_hotel]]
+            #print(filtered_df)python3 hotel_sim.py hotels.json activities.csv
+            #return filtered_df
+        #else:
+            #print(f"Activites for {best_hotel} are not applicable.")
+            #return pd.DataFrame()
+    
 
     
         
@@ -363,7 +364,7 @@ def main(json_filepath, csv_filepath):
     if (choice == str(1)):
         location_matches = my_trip.check_location(my_trip.user_data['location'])
     elif (choice == str(2)):
-        budget_matches =  my_trip.check_budget()
+        budget_matches = my_trip.check_budget()
     elif (choice == str(3)):
         date_matches = my_trip.check_date(my_trip.user_data['date'])
     else:
