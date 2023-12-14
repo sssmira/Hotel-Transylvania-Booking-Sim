@@ -224,6 +224,24 @@ class Hotel:
         print(f"The best vacation spot for you is {best_hotel}")
         return best_hotel 
     
+    def check_activity(self):
+        activity_options = ["Archery", "Dolphin Riding", "Ballroom Dancing", "Potion Mixing", "Swimming"]
+        
+        print("Choose from the following activites: ")
+        for index, activity in enumerate (activity_options, start=1):
+            print(f"{index}. {activity}")
+        
+        selected_activity_index = sanitize_user_input("integer", input("Enter the number that corresponds with your choosen activity choice: "))
+        
+        if selected_activity_index is not None and 1 <= selected_activity_index <= len (activity_options):
+            selected_activity = activity_options[selected_activity_index - 1] 
+            #print(f"You have selected '{selected_activity}' as your choosen activity")
+            #return selected_activity
+        else:
+            print("Invalid input. Please select a valid activity.")
+            return None
+        
+    
     def filtered_df(self):
         """Method to filter the csv to only the column where its name matches
         best_hotel using pandas to display activities provided by or
@@ -356,7 +374,8 @@ def main(json_filepath, csv_filepath):
           1.) Filter by Location
           2.) Filter by Budget
           3.) Filter by Date
-          4.) Get our perspective on the best hotel for you!
+          4.) Filter by Activity
+          5.) Get our perspective on the best hotel for you!
           
           Pick one: 
           """)
@@ -367,6 +386,8 @@ def main(json_filepath, csv_filepath):
         budget_matches = my_trip.check_budget()
     elif (choice == str(3)):
         date_matches = my_trip.check_date(my_trip.user_data['date'])
+    elif (choice == str(4)):
+        activity_matches = my_trip.check_activity()
     else:
         location_matches = my_trip.check_location(my_trip.user_data['location'])
         budget_matches = my_trip.check_budget()
