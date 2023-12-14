@@ -235,8 +235,6 @@ class Hotel:
         
         if selected_activity_index is not None and 1 <= selected_activity_index <= len (activity_options):
             selected_activity = activity_options[selected_activity_index - 1] 
-            #print(f"You have selected '{selected_activity}' as your choosen activity")
-            #return selected_activity
         else:
             print("Invalid input. Please select a valid activity.")
             return None
