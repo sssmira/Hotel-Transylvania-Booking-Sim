@@ -16,9 +16,10 @@ class Hotel:
     A class to represent a hotel booking simulator, particularly themed around 
     the concept of 'Hotel Transylvania', known as the 'Boo-king Program'.
 
-    This class is designed to interact with hotel data stored in a JSON file and 
-    user preferences to assist in finding the best vacation spot and activities 
-    based on user-specified criteria such as location, budget, and dates. 
+    This class is designed to interact with hotel data stored in a JSON file,
+    CSV file of acitivities, and user preferences to assist in finding the 
+    best vacation spot based on user-specified criteria such as location, 
+    budget, dates, activities, or a combination of location, budget, and date.
 
     Attributes:
         hotel_data (dict): A dictionary containing the hotel data loaded from a JSON file.
@@ -33,18 +34,15 @@ class Hotel:
     Methods:
         __init__(json_filepath, csv_filepath): Initializes the Hotel class with hotel data 
                                                from the specified JSON and CSV file paths.
-        __str__(): Provides a human-readable representation of the Hotel instance, 
-                   detailing the stored hotel data.
         __getitem__(hotel_name): Allows access to specific hotel details using the hotel's 
                                  name as a key.
         check_location(preferred_location): Filters and returns a list of hotels based on 
                                             the user's preferred location.
         check_budget(): Filters and returns a list of hotels within the user's budget based 
                         on the number of guests and nights.
-        spend_budget(user_data): Suggests ways to spend leftover money after hotel expenses 
-                                 and displays a pie chart of possible options.
         check_date(preferred_date): Filters and returns a list of hotels available in the 
                                     user's preferred date.
+        spend_budget(): Data visualization showing how much the user should spend on vacation.
         best_hotel_selector(location_matches, budget_matches, date_matches): Determines 
                                                                             the best hotel 
                                                                             match based on 
@@ -52,8 +50,9 @@ class Hotel:
                                                                             of location, 
                                                                             budget, and date 
                                                                             preferences.
-        activities(): Filters and displays activities available at or around the best-matched 
-                      hotel.
+        check_activity(): Asks the user what activity they like and filters the activities.csv 
+                        file according to that acitivity to return a list of hotels that
+                        have that specified activity.
         """
    
     def __init__(self, json_filepath, csv_filepath):
@@ -80,20 +79,6 @@ class Hotel:
             
         self.user_data = user_prefs()
         self.csv_filepath = csv_filepath
-        
-    def __str__(self):
-        """
-        Returns a string representation of the Hotel instance, providing an overview of 
-        the stored hotel data.
-
-        Returns:
-            str: A string describing the hotels stored in the instance, including their 
-                names and key information.
-        """
-        hotel_overview = "Hotel Overview:\n"
-        for hotel_name, details in self.hotels_dict.items():
-            hotel_overview += f"Hotel Name: {hotel_name}, Location: {details['location']}, Prices: {details['prices']}, Available Dates: {details['date']}\n"
-        return hotel_overview
     
     def __getitem__(self, hotel_name):
         """Samira's method
@@ -103,8 +88,8 @@ class Hotel:
             hotel_name (str): The name of the hotel whose details are to be accessed.
 
         Returns:
-            dict: A dictionary containing details of the specified hotel, such as location, 
-                prices, and available dates.
+            hotels_dict: A dictionary containing details of the specified hotel, such as location, 
+                prices, available dates, amenities, rating.
 
         Raises:
             KeyError: If the specified hotel name is not found in the hotel data.
@@ -116,7 +101,8 @@ class Hotel:
             raise
 
     def check_location(self, preferred_location):
-        """Checks the user inputted preferred location and builds a list of
+        """Samira's method
+        Checks the user inputted preferred location and builds a list of
         hotels that are located in that preferred location.
 
         Args:
@@ -131,9 +117,8 @@ class Hotel:
         for hotel_name, details in self.hotels_dict.items():
             if details["location"] == preferred_location:
                 location_matches.append(hotel_name)
-                
+                        
         print(f"Hotels within location: {', '.join(location_matches)}")if location_matches else print("No hotels within the inputted location")
-            
         return location_matches
 
     def check_budget(self):
@@ -150,6 +135,7 @@ class Hotel:
         for hotel_name, details in self.hotels_dict.items():
             num_guests = self.user_data['guests']
             num_nights = self.user_data['nights_staying']
+            # f string
             price_key = f"{num_guests}_guest{'s' if num_guests > 1 else ''}"
             nightly_price = details['prices'].get(price_key)
 
@@ -160,11 +146,12 @@ class Hotel:
                 budget_matches.append(hotel_name)
                 
         if budget_matches:
+            # f string
             print(f"Hotels within budget: {', '.join(budget_matches)}")
         else:
             print("No hotels within the inputted budget price")
         return budget_matches
-        
+ 
     def spend_budget(self, user_data):
         """Kassia's method. 
         Determines how the user can use the money they have 
@@ -184,10 +171,10 @@ class Hotel:
         spending = {activity: leftover_money * (percent/100) for activity, percent in percentages.items()}
         activites = list(spending.keys())
         amounts = list(spending.values())
+        # plt data visualization
         plt.pie(amounts, labels = activites, autopct= '%1.1f%%')
         plt.title('Recommended for leftover money')
         plt.show()
-
 
     def check_date(self, preferred_date):
         """Kassia's method
@@ -196,10 +183,12 @@ class Hotel:
 
         Args:
             preferred_date (str): Name of month that user prefers.
+            
         Returns:
             date_matches (list): Lists of hotels that match the user's 
             preferred date preference.
         """
+        # list comprehension
         date_matches = [hotel_name for hotel_name, details in self.hotels_dict.items() if preferred_date in details["date"]]
         
         if date_matches:
@@ -238,11 +227,20 @@ class Hotel:
             preferred date preference.
         """
         all_matches = location_matches + budget_matches + date_matches
+        # key function
         best_hotel = max(set(all_matches), key=all_matches.count)
         print(f"The best vacation spot for you is {best_hotel}")
         return best_hotel 
     
     def check_activity(self):
+        """Jeni's Method
+        Asks the user what activity they like and filters the activities.csv 
+        file according to that acitivity to return a list of hotels that
+        have that specified activity.
+
+        Returns:
+            hotel_names_list: List of hotels that have the specified activity.
+        """
         activity_options = ["Archery", "Dolphin Riding", "Ballroom Dancing", "Potion Mixing", "Swimming"]
 
         print("Choose from the following activities: ")
@@ -253,39 +251,12 @@ class Hotel:
         if selected_activity_index is not None and 1 <= selected_activity_index <= len(activity_options):
             selected_activity = activity_options[selected_activity_index - 1]
 
-        df = pd.read_csv("activities.csv")
+        df = pd.read_csv(self.csv_filepath)
+        # boolean filtering
         filtered_df = df[df[selected_activity] == 1]
         hotel_names_list = list(filtered_df['Unnamed: 0'])
         print(f"Hotels with selected activity: {hotel_names_list}")
         return hotel_names_list
-        
-    
-    def filtered_df(self):
-        """Method to filter the csv to only the column where its name matches
-        best_hotel using pandas to display activities provided by or
-        around the hotel
-        
-        Side effects:
-            filtered_df (df): Prints this dataframe for viewing
-            
-        Returns:
-            filtered_df (df): Dataframe containing only the column with the
-            best_hotel and its respective activities provided.
-        """
-        #df = pd.read_csv("activities.csv")
-        #best_hotel = self.best_hotel_selector([], [], [])
-        #pass 3 arguments
-        #intialize into empty list
-        
-        #if best_hotel in df.columns:
-            #filtered_df = df[[best_hotel]]
-            #print(filtered_df)python3 hotel_sim.py hotels.json activities.csv
-            #return filtered_df
-        #else:
-            #print(f"Activites for {best_hotel} are not applicable.")
-            #return pd.DataFrame()
-    
-
     
         
 def user_prefs():
@@ -293,7 +264,8 @@ def user_prefs():
     Asks the user a series of questions to gain information about user
     preferences
     
-    Returns: user_data (dict): Dictionary that has all user responses.
+    Returns: 
+        user_data (dict): Dictionary that has all user responses.
     """
     user_data = {}
     name = sanitize_user_input("default", input("Enter your name: "))
@@ -334,6 +306,7 @@ def sanitize_user_input(input_type, user_input):
     """
     if input_type == "integer":
         # Strip non-numeric characters and convert to integer
+        # regular expression
         sanitized_input = re.sub(r'[^\d]', '', user_input)
         try:
             return int(sanitized_input)
@@ -365,6 +338,7 @@ def read_file_and_store_in_dict(filepath):
     """
     try:
         with open(filepath, 'r') as file:
+            # json.load()
             json_data = json.load(file)
             return json_data
     except FileNotFoundError:
@@ -382,6 +356,13 @@ def in_range(actual_cost, user_budget):
 def main(json_filepath, csv_filepath):
     """Finds the the hotel that matches the user preferences based on 
     the user's input using the data from the specificed file.
+    
+    Args:
+        json_filepath (str): path to json file.
+        csv_filepath (str): path to csv file.
+    
+    Side effects:
+        Writes to stdout.
     """
     print('Welcome to the Hotel BOO-king Simulator, find out what vacation is the best for you!')
     print('------------------------------------------------------------------------------------')
@@ -402,35 +383,32 @@ def main(json_filepath, csv_filepath):
         location_matches = my_trip.check_location(my_trip.user_data['location'])
         best_hotel = my_trip.first_hotel_selector(location_matches)
         my_trip.__getitem__(best_hotel)
+        
     elif (choice == str(2)):
         budget_matches = my_trip.check_budget()
         best_hotel = my_trip.first_hotel_selector(budget_matches)
         my_trip.__getitem__(best_hotel)
+        
     elif (choice == str(3)):
         date_matches = my_trip.check_date(my_trip.user_data['date'])
         best_hotel = my_trip.first_hotel_selector(date_matches)
         my_trip.__getitem__(best_hotel)
+        
     elif (choice == str(4)):
         activity_matches = my_trip.check_activity()
         best_hotel = my_trip.first_hotel_selector(activity_matches)
         my_trip.__getitem__(best_hotel)
+        
     else:
         location_matches = my_trip.check_location(my_trip.user_data['location'])
         budget_matches = my_trip.check_budget()
         date_matches = my_trip.check_date(my_trip.user_data['date'])
         best_hotel = my_trip.best_hotel_selector(location_matches, budget_matches, date_matches)
         my_trip.__getitem__(best_hotel)
-    
-    activities = my_trip.filtered_df()
 
 def parse_args(arglist):
-    """Parse command-line arguments.
-    
-    Expect one mandatory argument:
-        - filepath: a path to a file with list of hotel objects 
-        or dictionaries.
+    """Parse command-line arguments and provide help messages
        
-
     Args:
         arglist (list of str): arguments from the command line.
     
