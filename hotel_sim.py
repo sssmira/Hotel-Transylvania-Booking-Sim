@@ -110,7 +110,7 @@ class Hotel:
             KeyError: If the specified hotel name is not found in the hotel data.
         """
         try:
-            print(f"Best hotel details: {self.hotels_dict[hotel_name]}") 
+            print(f"Details for {hotel_name}: {self.hotels_dict[hotel_name]}") 
         except KeyError:
             print(f"Hotel '{hotel_name}' not found.")
             raise
@@ -244,18 +244,20 @@ class Hotel:
     
     def check_activity(self):
         activity_options = ["Archery", "Dolphin Riding", "Ballroom Dancing", "Potion Mixing", "Swimming"]
-        
-        print("Choose from the following activites: ")
-        for index, activity in enumerate (activity_options, start=1):
+
+        print("Choose from the following activities: ")
+        for index, activity in enumerate(activity_options, start=1):
             print(f"{index}. {activity}")
-        
-        selected_activity_index = sanitize_user_input("integer", input("Enter the number that corresponds with your choosen activity choice: "))
-        
-        if selected_activity_index is not None and 1 <= selected_activity_index <= len (activity_options):
-            selected_activity = activity_options[selected_activity_index - 1] 
-        else:
-            print("Invalid input. Please select a valid activity.")
-            return None
+
+        selected_activity_index = sanitize_user_input("integer", input("Enter the number that corresponds with your chosen activity choice: "))
+        if selected_activity_index is not None and 1 <= selected_activity_index <= len(activity_options):
+            selected_activity = activity_options[selected_activity_index - 1]
+
+        df = pd.read_csv("activities.csv")
+        filtered_df = df[df[selected_activity] == 1]
+        hotel_names_list = list(filtered_df['Unnamed: 0'])
+        print(f"Hotels with selected activity: {hotel_names_list}")
+        return hotel_names_list
         
     
     def filtered_df(self):
@@ -410,6 +412,8 @@ def main(json_filepath, csv_filepath):
         my_trip.__getitem__(best_hotel)
     elif (choice == str(4)):
         activity_matches = my_trip.check_activity()
+        best_hotel = my_trip.first_hotel_selector(activity_matches)
+        my_trip.__getitem__(best_hotel)
     else:
         location_matches = my_trip.check_location(my_trip.user_data['location'])
         budget_matches = my_trip.check_budget()
