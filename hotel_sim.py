@@ -56,6 +56,22 @@ class Hotel:
         """
    
     def __init__(self, json_filepath, csv_filepath):
+        """Initializes Hotel object. Creates and sets csv_filepath attribute 
+        Creates hotel_name, location, prices, dates, amenities, rating 
+        variables and sets them to hotel_info dict
+        
+        Args:
+           json_filepath (str): The file path to the Json file containing info
+           of hotels from the fictional movie series Hotel Transylvania.
+           csv_filepath (str): The file path to a CSV file containing
+           activities associated with different hotels.
+          
+          
+       Side Effects:
+           Sets user_data to user_prefs function
+
+        
+        """
         self.hotel_data = read_file_and_store_in_dict(json_filepath)
         self.hotels_dict = {}
         for hotel_element in self.hotel_data["places"]:
