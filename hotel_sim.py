@@ -93,6 +93,9 @@ class Hotel:
 
         Raises:
             KeyError: If the specified hotel name is not found in the hotel data.
+            
+        Side effects:
+            Writes to stdout from print statements.
         """
         try:
             print(f"Details for {hotel_name}: {self.hotels_dict[hotel_name]}") 
@@ -112,6 +115,9 @@ class Hotel:
         Returns:
             location_matches (list): Lists of hotels that match the user's 
             preferred country/location preference
+            
+        Side effects:
+            Writes to stdout from print statements.
         """
         location_matches = []
         for hotel_name, details in self.hotels_dict.items():
@@ -130,6 +136,9 @@ class Hotel:
         Returns:
             budget_matches (list): List of all hotels that match the inputted
             budget
+        
+        Side effects:
+            Writes to stdout from print statements.
         """
         budget_matches = []
         for hotel_name, details in self.hotels_dict.items():
@@ -187,6 +196,9 @@ class Hotel:
         Returns:
             date_matches (list): Lists of hotels that match the user's 
             preferred date preference.
+        
+        Side effects:
+            Writes to stdout from print statements.
         """
         # list comprehension
         date_matches = [hotel_name for hotel_name, details in self.hotels_dict.items() if preferred_date in details["date"]]
@@ -205,6 +217,9 @@ class Hotel:
 
         Args:
             match_list (list): List of all possible hotel matches
+            
+        Side effects:
+            Writes to stdout from print statements.
         """
         best_hotel = match_list[0]
         print(f"The best vacation spot for you is {best_hotel}")
@@ -225,6 +240,9 @@ class Hotel:
             budget
             date_matches (list): Lists of hotels that match the user's 
             preferred date preference.
+            
+        Side effects:
+            Writes to stdout from print statements.
         """
         all_matches = location_matches + budget_matches + date_matches
         # key function
@@ -240,6 +258,9 @@ class Hotel:
 
         Returns:
             hotel_names_list: List of hotels that have the specified activity.
+        
+        Side effects:
+            Writes to stdout from print statements.
         """
         activity_options = ["Archery", "Dolphin Riding", "Ballroom Dancing", "Potion Mixing", "Swimming"]
 
