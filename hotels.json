@@ -145,7 +145,7 @@
                 "2_guests": 260,
                 "3_guests": 360
             },
-            "amenities": ["Rooftop Dining", "Fitness Center", "Indoor Pool", "Restaurants", "Outdoor Pool"],
+            "amenities": ["Rooftop Dining", "Faitness Center", "Indoor Pool", "Restaurants", "Outdoor Pool"],
             "rating": 4,
             "dates": ["April", "May", "June", 
             "July", "August", "September"]
