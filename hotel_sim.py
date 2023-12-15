@@ -72,7 +72,7 @@ class Hotel:
 
         
         """
-        self.hotel_data = read_file_and_store_in_dict(json_filepath)
+        self.hotel_data = read_file(json_filepath)
         self.hotels_dict = {}
         for hotel_element in self.hotel_data["places"]:
             hotel_name = hotel_element["place_name"]
@@ -363,7 +363,7 @@ def sanitize_user_input(input_type, user_input):
         # Default case for other inputs like name
         return user_input.strip() 
 
-def read_file_and_store_in_dict(filepath):
+def read_file(filepath):
     """Sathya's function
     Load hotel data from a JSON file and return a list of hotel objects or dictionaries.
 
